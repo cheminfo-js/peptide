@@ -1,0 +1,29 @@
+{
+  "name": "peptide",
+  "version": "0.0.0",
+  "description": "Peptide",
+  "keywords": [
+    "peptide",
+    "amino",
+    "acid"
+  ],
+  "main": [
+    "dist/peptide.js",
+    "dist/peptide.min.js"
+  ],
+  "authors": [
+    "Luc Patiny",
+    "Michaël Zasso"
+  ],
+  "homepage": "https://github.com/cheminfo-js/peptide",
+  "license": "MIT",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "ignore": [
+    "/*",
+    "!dist/*"
+  ]
+}
