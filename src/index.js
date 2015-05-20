@@ -1,6 +1,31 @@
 'use strict';
 
 var aa = require('./amino_acid');
+var IEP = require('./isoElectricPoint');
+
+console.log(IEP);
+
+
+exports.getInfo = function () {
+    return aa;
+}
+
+// sequence should be in the "right" format like HAlaGlyProOH
+
+exports.calculateIEP = function (sequence) {
+    var aas=sequence.replace(/([A-Z])/g," $1").split(/ /);
+    aas=aas.slice(2,aas.length-2);
+    var result=IEP.calculateIEP(aas);
+    return result;
+}
+
+exports.calculateIEPChart = function (sequence) {
+    var aas=sequence.replace(/([A-Z])/g," $1").split(/ /);
+    aas=aas.slice(2,aas.length-2);
+    var result=IEP.calculateChart(aas);
+    return result;
+}
+
 
 exports.generatePeptideFragments = function generatePeptideFragments(mf, options) {
     if (options === undefined) {
@@ -15,64 +40,17 @@ exports.generatePeptideFragments = function generatePeptideFragments(mf, options
         };
     }
 
-    var i;
     var mfs = [];
-    var mfparts = mf.replace(/([a-z\)])([A-Z])/g, '$1 $2').split(/ /);
+    var mfparts=mf.replace(/([a-z\)])([A-Z][a-z](?=[a-z]))/g,"$1 $2").split(/ /);
 
-    if (options.a) {
-        var mfa = '';
-        for (i = 0; i < (mfparts.length - 1); i++) {
-            mfa += mfparts[i];
-            mfs.push(mfa + 'C-1O-1(+1)$a' + (i + 1));
-        }
-    }
-    if (options.b) {
-        var mfb = '';
-        for (i = 0; i < (mfparts.length - 1); i++) {
-            mfb += mfparts[i];
-            mfs.push(mfb + '(+1)$b' + (i + 1));
-        }
-    }
-    if (options.c) {
-        var mfc = '';
-        for (i = 0; i < (mfparts.length - 1); i++) {
-            mfc += mfparts[i];
-            mfs.push(mfc + 'NH3(+1)$c' + (i + 1));
-        }
-    }
-    if (options.x) {
-        var mfx = '';
-        for (i = mfparts.length - 1; i >= 0; i--) {
-            mfx = mfparts[i] + mfx;
-            if (i < (mfparts.length - 1)) {
-                mfs.push('CO(+1)' + mfx + '$x' + (mfparts.length - i - 1));
-            }
-        }
-    }
-    if (options.y) {
-        var mfy = '';
-        for (i = mfparts.length - 1; i >= 0; i--) {
-            mfy = mfparts[i] + mfy;
-            if (i < (mfparts.length - 1)) {
-                mfs.push('H2(+1)' + mfy + '$y' + (mfparts.length - i - 1));
-            }
-        }
-    }
-    if (options.z) {
-        var mfz = '';
-        for (i = mfparts.length - 1; i >= 0; i--) {
-            mfz = mfparts[i] + mfz;
-            if (i < (mfparts.length - 1)) {
-                mfs.push('N-1H-1(+1)' + mfz + '$z' + (mfparts.length - i - 1));
-            }
-        }
-    }
-    if (options.i) {
-        for (i = mfparts.length - 1; i > 0; i--) {
-            if (mfparts[i].match(/^[A-Z][a-z][a-z].*$/)) {
-                mfs.push(mfparts[i] + 'HC-1O-1(+1)$i:' + mfparts[i]);
-            }
-        }
+    var nTerm="";
+    var cTerm="";
+    for (var i=1; i<mfparts.length; i++) {
+        nTerm+=mfparts[i-1];
+        cTerm=mfparts[mfparts.length-i]+cTerm;
+        addNTerm(mfs, nTerm, i, options);
+        addCTerm(mfs, cTerm, i, options);
+        if (options.i) mfs.push(mfparts[i]+"HC-1O-1(+1)$i:"+mfparts[i]);
     }
 
     if (mfs.length === 0) {
@@ -148,3 +126,15 @@ exports.convertAASequence = function convertAASequence(mf) {
     return newmf;
 
 };
+
+function addNTerm(mfs, nTerm, i, options) {
+    if (options.a) mfs.push(nTerm+"C-1O-1(+1)$a"+i);
+    if (options.b) mfs.push(nTerm+"(+1)$b"+i);
+    if (options.c) mfs.push(nTerm+"NH3(+1)$c"+i);
+}
+
+function addCTerm(mfs, cTerm, i, options) {
+    if (options.x) mfs.push("CO(+1)"+cTerm+"$x"+i);
+    if (options.y) mfs.push("H2(+1)"+cTerm+"$y"+i);
+    if (options.z) mfs.push("N-1H-1(+1)"+cTerm+"$z"+i);
+}

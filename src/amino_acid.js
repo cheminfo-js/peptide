@@ -7,7 +7,7 @@ module.exports = [
         name: "Alanine",
         aa3: "Ala",
         aa1: "A",
-        side: {
+        sc: {
             type: "hydrophobic"
         },
         pKaC: 2.33,
@@ -17,7 +17,7 @@ module.exports = [
         name: "Arginine",
         aa3: "Arg",
         aa1: "R",
-        side: {
+        sc: {
             type: "positive",
             pKa: 12.10
         },
@@ -28,7 +28,7 @@ module.exports = [
         name: "Asparagine",
         aa3: "Asn",
         aa1: "N",
-        side: {
+        sc: {
             type: "polar"
         },
         pKaC: 2.13,
@@ -38,7 +38,7 @@ module.exports = [
         name: "Aspartic acid",
         aa3: "Asp",
         aa1: "D",
-        side: {
+        sc: {
             type: "negative",
             pKa: 3.71
         },
@@ -49,7 +49,7 @@ module.exports = [
         name: "Cysteine",
         aa3: "Cys",
         aa1: "C",
-        side: {
+        sc: {
             type: "special",
             pKa: 8.14
         },
@@ -60,7 +60,7 @@ module.exports = [
         name: "Glutamic acid",
         aa3: "Glu",
         aa1: "E",
-        side: {
+        sc: {
             type: "negative",
             pKa: 4.15
         },
@@ -71,7 +71,7 @@ module.exports = [
         name: "Glutamine",
         aa3: "Gln",
         aa1: "Q",
-        side: {
+        sc: {
             type: "polar"
         },
         pKaC: 2.18,
@@ -81,7 +81,7 @@ module.exports = [
         name: "Glycine",
         aa3: "Gly",
         aa1: "G",
-        side: {
+        sc: {
             type: "special"
         },
         pKaC: 2.34,
@@ -91,7 +91,7 @@ module.exports = [
         name: "Histidine",
         aa3: "His",
         aa1: "H",
-        side: {
+        sc: {
             type: "positive",
             pKa: 6.04
         },
@@ -102,7 +102,7 @@ module.exports = [
         name: "Isoleucine",
         aa3: "Ile",
         aa1: "I",
-        side: {
+        sc: {
             type: "hydrophobic"
         },
         pKaC: 2.26,
@@ -112,7 +112,7 @@ module.exports = [
         name: "Leucine",
         aa3: "Leu",
         aa1: "L",
-        side: {
+        sc: {
             type: "hydrophobic"
         },
         pKaC: 2.32,
@@ -122,7 +122,7 @@ module.exports = [
         name: "Lysine",
         aa3: "Lys",
         aa1: "K",
-        side: {
+        sc: {
             type: "positive",
             pKa: 10.67
         },
@@ -133,7 +133,7 @@ module.exports = [
         name: "Methionine",
         aa3: "Met",
         aa1: "M",
-        side: {
+        sc: {
             type: "hydrophobic"
         },
         pKaC: 2.16,
@@ -143,7 +143,7 @@ module.exports = [
         name: "Phenylalanine",
         aa3: "Phe",
         aa1: "F",
-        side: {
+        sc: {
             type: "hydrophobic"
         },
         pKaC: 2.18,
@@ -153,7 +153,7 @@ module.exports = [
         name: "Proline",
         aa3: "Pro",
         aa1: "P",
-        side: {
+        sc: {
             type: "special"
         },
         pKaC: 1.95,
@@ -163,7 +163,7 @@ module.exports = [
         name: "Serine",
         aa3: "Ser",
         aa1: "S",
-        side: {
+        sc: {
             type: "polar"
         },
         pKaC: 2.13,
@@ -173,7 +173,7 @@ module.exports = [
         name: "Threonine",
         aa3: "Thr",
         aa1: "T",
-        side: {
+        sc: {
             type: "polar"
         },
         pKaC: 2.20,
@@ -183,7 +183,7 @@ module.exports = [
         name: "Tryptophan",
         aa3: "Trp",
         aa1: "W",
-        side: {
+        sc: {
             type: "hydrophobic"
         },
         pKaC: 2.38,
@@ -193,7 +193,7 @@ module.exports = [
         name: "Tyrosine",
         aa3: "Tyr",
         aa1: "Y",
-        side: {
+        sc: {
             type: "hydrophobic"
         },
         pKaC: 2.24,
@@ -203,7 +203,7 @@ module.exports = [
         name: "Valine",
         aa3: "Val",
         aa1: "V",
-        side: {
+        sc: {
             type: "hydrophobic"
         },
         pKaC: 2.27,
