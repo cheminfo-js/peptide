@@ -3,8 +3,6 @@
 var aa = require('./amino_acid');
 var IEP = require('./isoElectricPoint');
 
-console.log(IEP);
-
 
 exports.getInfo = function () {
     return aa;
