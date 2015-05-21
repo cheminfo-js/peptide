@@ -68,3 +68,13 @@ describe('Check isoelectric point - One point', function () {
         result.yAbs.should.be.instanceof(Array).and.have.length(1401);
     });
 });
+
+describe('Check isoelectric point - Get Color', function () {
+    var result = PEP.getColorForIEP(4);
+    result.should.equal('rgb(105,105,255)');
+});
+
+describe('Check isoelectric point - Get charge', function () {
+    var result = PEP.calculateCharge("HAlaGlySerLysLysHisOH",2.0);
+    result.should.equal(3.334);
+});

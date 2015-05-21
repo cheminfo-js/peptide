@@ -26,11 +26,13 @@ exports.calculateIEPChart = function (sequence) {
 
 
 exports.getColorForIEP = function (iep) {
-    return IEP.getcolor(iep);
+    return IEP.getColor(iep);
 }
 
-exports.calculateCharge = function (ph) {
-    return IEP.calculateCharge(ph);
+exports.calculateCharge = function (sequence, ph) {
+    var aas=sequence.replace(/([A-Z])/g," $1").split(/ /);
+    aas=aas.slice(2,aas.length-2);
+    return IEP.calculateCharge(aas, ph);
 }
 
 exports.generatePeptideFragments = function generatePeptideFragments(mf, options) {

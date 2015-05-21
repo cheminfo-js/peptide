@@ -11,9 +11,9 @@ for (var i=0; i<aa.length; i++) {
 
 
 
-function calculateCharge(aaSequence, pH) {
+function calculateCharge(aas, pH) {
     if (! pH) pH=7.0;
-    var combined=combine(aaSequence);
+    var combined=combine(aas);
     if (!combined) return;
     var charge=calculateForPh(combined, pH);
     return Math.round(charge*1000)/1000;
@@ -75,22 +75,22 @@ function calculateForPh(combined, pH) {
 }
 
 // we will combine the amino acids
-function combine(aaSequence) {
+function combine(aas) {
     var combined={};
-    if (aaObject[aaSequence[0]]) {
-        combined.first=aaObject[aaSequence[0]].pKaN;
+    if (aaObject[aas[0]]) {
+        combined.first=aaObject[aas[0]].pKaN;
     } else {
         return;
     }
-    if (aaObject[aaSequence[aaSequence.length-1]]) {
-        combined.last=aaObject[aaSequence[aaSequence.length-1]].pKaC;
+    if (aaObject[aas[aas.length-1]]) {
+        combined.last=aaObject[aas[aas.length-1]].pKaC;
     } else {
         return;
     }
     combined.basic={};
     combined.acid={};
-    for (var i=0; i<aaSequence.length; i++) {
-        var aa=aaSequence[i];
+    for (var i=0; i<aas.length; i++) {
+        var aa=aas[i];
         if (! aaObject[aa]) return;
         if (aaObject[aa].sc && aaObject[aa].sc.type) {
             if (aaObject[aa].sc.type=="positive") {
