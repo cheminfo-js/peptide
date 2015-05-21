@@ -27,6 +27,10 @@ exports.calculateIEPChart = function (sequence) {
 }
 
 
+exports.getColorForIEP = function (iep) {
+    return IEP.getcolor(iep);
+}
+
 exports.generatePeptideFragments = function generatePeptideFragments(mf, options) {
     if (options === undefined) {
         options = {

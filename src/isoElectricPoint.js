@@ -109,11 +109,28 @@ function combine(aaSequence) {
     return combined;
 }
 
-
+/*
+ We can generate a color based on iep
+ 0 -> 7 means that at pH 7 it is charged negatively (blue)
+ 7 -> 14 means that at pH7 it is charged positively (red)
+ */
+function getColor(iep) {
+    if (iep<7) {
+        if (iep<3) iep=3;
+        var white=Math.round(255-(7-iep)*(200/4));
+        return "rgb("+white+","+white+",255)";
+    } else if (iep>7) {
+        if (iep>11) iep=11;
+        var white=Math.round(255-(iep-7)*(200/4));
+        return "rgb(255,"+white+","+white+")";
+    }
+    return "rgb(255,255,255)";
+}
 
 module.exports={
     calculateIEP: calculateIEP,
     calculateCharge: calculateCharge,
-    calculateChart: calculateChart
+    calculateChart: calculateChart,
+    getColor: getColor
 }
 
