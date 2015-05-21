@@ -29,6 +29,10 @@ exports.getColorForIEP = function (iep) {
     return IEP.getcolor(iep);
 }
 
+exports.calculateCharge = function (ph) {
+    return IEP.calculateCharge(ph);
+}
+
 exports.generatePeptideFragments = function generatePeptideFragments(mf, options) {
     if (options === undefined) {
         options = {

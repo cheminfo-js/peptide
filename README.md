@@ -45,6 +45,19 @@ __Arguments__
 
 ## Isoelectric Point
 
+pKa of amino acids is based on https://en.wikipedia.org/wiki/Amino_acid.
+
+#### calculateCharge(sequence, ph)
+
+Calculate the charge for a specific amino acid sequence. The sequence should be entered in the form "HAlaGlyOH".
+Please take care about the N and C terminal end. You may use the methods "convertAASequence" to create such a sequence
+from other format.
+
+__Arguments__
+
+* `sequence` - string with the amino acids sequence
+* `ph` - ph for which to calculate the charge. Default: 7.0
+
 #### calculateIEP(sequence)
 
 Calculate the isoelectric point for a specific amino acid sequence. The sequence should be entered in the form "HAlaGlyOH".
