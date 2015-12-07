@@ -44,7 +44,9 @@ exports.generatePeptideFragments = function generatePeptideFragments(mf, options
             x: false,
             y: true,
             z: false,
-            i: false
+            i: false,
+            yb: false,
+            ya: false
         };
     }
 
@@ -59,7 +61,18 @@ exports.generatePeptideFragments = function generatePeptideFragments(mf, options
         addNTerm(mfs, nTerm, i, options);
         addCTerm(mfs, cTerm, i, options);
         if (options.i) mfs.push(mfparts[i]+"HC-1O-1(+1)$i:"+mfparts[i]);
+
+        if (options.ya || options.yb) { // we have double fragmentations
+            for (var j=i+1; j<mfparts.length;j++) {
+                var iTerm='';
+                for (var k=i; k<j; k++) {
+                    iTerm+=mfparts[k];
+                }
+                addITerm(mfs, iTerm, i, j, options);
+            }
+        }
     }
+
 
     if (mfs.length === 0) {
         mfs = mfs.concat([mf]);
@@ -139,6 +152,11 @@ function addNTerm(mfs, nTerm, i, options) {
     if (options.a) mfs.push(nTerm+"C-1O-1(+1)$a"+i);
     if (options.b) mfs.push(nTerm+"(+1)$b"+i);
     if (options.c) mfs.push(nTerm+"NH3(+1)$c"+i);
+}
+
+function addITerm(mfs, iTerm, i, j, options) {
+    if (options.ya) mfs.push("H"+iTerm+"C-1O-1(+1)$a"+j+"y"+i);
+    if (options.yb) mfs.push("H"+iTerm+"(+1)$b"+j+"y"+i);
 }
 
 function addCTerm(mfs, cTerm, i, options) {
