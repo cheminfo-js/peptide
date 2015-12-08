@@ -1,8 +1,8 @@
 'use strict';
 
-var aa = require('./amino_acid');
+var aa = require('./aminoAcids');
 var IEP = require('./isoElectricPoint');
-
+var chargePeptide = require('./chargePeptide');
 
 exports.getInfo = function () {
     return aa;
@@ -82,9 +82,8 @@ exports.generatePeptideFragments = function generatePeptideFragments(mf, options
 
 };
 
-exports.chargePeptide = function chargePeptide(mf) {
-    return mf.replace(/^H([^+])/, 'H+H$1').replace(/(Arg|His|Lys)(?!\()/g, '$1(H+)');
-};
+exports.chargePeptide = chargePeptide;
+
 
 function aa1To3(code) {
     for (var i = 0; i < aa.length; i++) {

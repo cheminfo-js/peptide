@@ -1,7 +1,7 @@
 'use strict';
 
 
-var aa = require('./amino_acid');
+var aa = require('./aminoAcids');
 
 // we will convert the data to an object to be much faster
 var aaObject={};
