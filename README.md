@@ -64,7 +64,7 @@ __Arguments__
 * `sequence` - string with the amino acids sequence
 * `ph` - ph for which to calculate the charge. Default: 7.0
 
-#### splitSequence(sequence)
+#### splitPeptide(sequence)
 
 Split a 3 letter code sequence respecting uppercase, lowercase in an array of residu.
 
@@ -72,9 +72,9 @@ __Arguments__
 
 * `sequence` - string with the amino acids sequence
 
-#### digestSequence(sequence, options)
+#### digestPeptide(sequence, options)
 
-Allows to digest virtually a sequence
+Allows to digest virtually a peptide
 
 __Arguments__
 

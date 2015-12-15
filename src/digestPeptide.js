@@ -1,6 +1,6 @@
 'use strict';
 
-var splitSequence=require('./splitSequence');
+var splitSequence=require('./splitPeptide');
 
 function digestSequence(sequence, options) {
     var options=options || {};

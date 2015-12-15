@@ -3,8 +3,8 @@
 var aa = require('./aminoAcids');
 var IEP = require('./isoElectricPoint');
 var chargePeptide = require('./chargePeptide');
-var splitSequence = require('./splitSequence');
-var digestSequence = require('./digestSequence');
+var splitPeptide = require('./splitPeptide');
+var digestPeptide = require('./digestPeptide');
 
 exports.getInfo = function () {
     return aa;
@@ -12,17 +12,17 @@ exports.getInfo = function () {
 
 // sequence should be in the "right" format like HAlaGlyProOH
 
-exports.splitSequence=splitSequence;
-exports.digestSequence=digestSequence;
+exports.splitPeptide=splitPeptide;
+exports.digestPeptide=digestPeptide;
 
 exports.calculateIEP = function (sequence) {
-    var aas=splitSequence(sequence);
+    var aas=splitPeptide(sequence);
     var result=IEP.calculateIEP(aas);
     return result;
 }
 
 exports.calculateIEPChart = function (sequence) {
-    var aas=splitSequence(sequence);
+    var aas=splitPeptide(sequence);
     var result=IEP.calculateChart(aas);
     return result;
 }
@@ -33,7 +33,7 @@ exports.getColorForIEP = function (iep) {
 }
 
 exports.calculateCharge = function (sequence, ph) {
-    var aas=splitSequence(sequence);
+    var aas=splitPeptide(sequence);
     return IEP.calculateCharge(aas, ph);
 }
 
