@@ -18,4 +18,9 @@ describe('Checking digest sequence', function () {
         result.should.eql(["HLysLysOH","HLysAlaAlaLysOH"]);
     });
 
+    it('Normal small sequence digest, default value', function () {
+        var result=PEP.digestPeptide("HLysAlaOH");
+        result.should.eql(["HLysOH","HAlaOH"]);
+    });
+
 });
