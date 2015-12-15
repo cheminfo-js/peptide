@@ -59,6 +59,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var aa = __webpack_require__(1);
 	var IEP = __webpack_require__(2);
 	var chargePeptide = __webpack_require__(3);
+	var splitSequence = __webpack_require__(5);
+	var digestSequence = __webpack_require__(6);
 
 	exports.getInfo = function () {
 	    return aa;
@@ -66,16 +68,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	// sequence should be in the "right" format like HAlaGlyProOH
 
+	exports.splitSequence=splitSequence;
+	exports.digestSequence=digestSequence;
+
 	exports.calculateIEP = function (sequence) {
-	    var aas=sequence.replace(/([A-Z])/g," $1").split(/ /);
-	    aas=aas.slice(2,aas.length-2);
+	    var aas=splitSequence(sequence);
 	    var result=IEP.calculateIEP(aas);
 	    return result;
 	}
 
 	exports.calculateIEPChart = function (sequence) {
-	    var aas=sequence.replace(/([A-Z])/g," $1").split(/ /);
-	    aas=aas.slice(2,aas.length-2);
+	    var aas=splitSequence(sequence);
 	    var result=IEP.calculateChart(aas);
 	    return result;
 	}
@@ -86,8 +89,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	exports.calculateCharge = function (sequence, ph) {
-	    var aas=sequence.replace(/([A-Z])/g," $1").split(/ /);
-	    aas=aas.slice(2,aas.length-2);
+	    var aas=splitSequence(sequence);
 	    return IEP.calculateCharge(aas, ph);
 	}
 
@@ -106,6 +108,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        };
 	    }
 	    options.maxInternal = options.maxInternal || Number.MAX_VALUE;
+	    options.minInternal = options.minInternal || 0;
 
 	    var mfs = [];
 	    var mfparts=mf.replace(/([a-z\)])([A-Z][a-z](?=[a-z]))/g,"$1 $2").split(/ /);
@@ -123,10 +126,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (options.ya || options.yb) { // we have double fragmentations
 	            for (var j=i+1; j<Math.min(mfparts.length,options.maxInternal+i+1);j++) {
 	                var iTerm='';
-	                for (var k=i; k<j; k++) {
-	                    iTerm+=mfparts[k];
+	                if ((j-i)>=options.minInternal){
+	                    for (var k = i; k < j; k++) {
+	                        iTerm += mfparts[k];
+	                    }
+	                    addITerm(mfs, iTerm, mfparts.length - i, j, options);
 	                }
-	                addITerm(mfs, iTerm, mfparts.length-i, j, options);
 	            }
 	        }
 	    }
@@ -692,6 +697,104 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	module.exports = getAA;
+
+
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	function splitSequence(sequence) {
+	    var aas=sequence.replace(/([A-Z])/g," $1").split(/ /);
+	    var begin=0;
+	    while (aas[begin]==='' || aas[begin]==='H') {
+	        begin++;
+	    }
+	    var end=aas.length-1;
+	    while (aas[end]==='O' || aas[end]==='H') {
+	        end--;
+	    }
+	    aas=aas.slice(begin,end+1);
+	    return aas;
+	}
+
+
+	module.exports = splitSequence;
+
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var splitSequence=__webpack_require__(5);
+
+	function digestSequence(sequence, options) {
+	    var options=options || {};
+
+	    sequence=sequence.replace(/^H([^a-z])/,'$1').replace(/OH$/,'');
+
+	    options.enzyme = options.enzyme || 'trypsin';
+	    if (options.minMissed===undefined) options.minMissed=0;
+	    if (options.maxMissed===undefined) options.maxMissed=0;
+	    if (options.minResidue===undefined) options.minResidue=0;
+	    if (options.maxResidue===undefined) options.maxResidue=Number.MAX_VALUE;
+	    var regexp=getRegexp(options.enzyme);
+	    var fragments=sequence.replace(regexp,"$1 ").split(/ /);
+	    if (!fragments[fragments.length]) fragments=fragments.slice(0, fragments.length-1);
+
+	    for (var i=0; i<fragments.length; i++) {
+	        fragments[i]={
+	            sequence:fragments[i],
+	            nbResidue:splitSequence(fragments[i]).length
+	        }
+	    }
+
+	    var results=[];
+
+	    for (var i=0; i<fragments.length-options.minMissed; i++) {
+	        for (var j=options.minMissed; j<=Math.min(options.maxMissed,fragments.length-i-1); j++) {
+	            var fragment='';
+	            var nbResidue=0;
+	            for (var k=i; k<=(i+j); k++) {
+	                fragment+=fragments[k].sequence;
+	                nbResidue+=fragments[k].nbResidue
+	            }
+	            if (fragment && nbResidue>=options.minResidue && nbResidue<=options.maxResidue) {
+	                results.push("H"+fragment+"OH");
+	            }
+	        }
+	    }
+
+	    return results;
+	}
+
+
+	function getRegexp(enzyme) {
+	    switch (enzyme.toLowerCase().replace(/[^a-z0-9]/g,'')) {
+	        case 'chymotrypsin':
+	            return /(Phe|Tyr|Trp)(?!Pro)/g;
+	        case 'trypsin':
+	            return /(Lys|Arg)(?!Pro)/g;
+	        case 'lysc':
+	            return /(Lys)(?!Pro)/g;
+	        case 'glucph4':
+	            return /(Glu)(?!Pro|Glu)/g;
+	        case 'glucph8':
+	            return /(Asp|Glu)(?!Pro|Glu)/g;
+	        case 'thermolysin':
+	            return /(Leu|Ile|Met|Phe|Trp)/g;
+	        case 'cyanogenbromide':
+	            return /(Met)/g;
+	    }
+	    throw new Error('Digestion enzyme: '+enzyme+' is unknown');
+	}
+
+	module.exports = digestSequence;
 
 
 
