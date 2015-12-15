@@ -16,7 +16,6 @@ function chargePeptide(mf, options) {
         if (aa[firstAA] && pH<aa[firstAA].pKaN) {
             mf=mf.replace(/^H([^+])/, 'H+H$1');;
         }
-        console.log(firstAA);
     }
 
     // last amino acids (C-terminal)
@@ -25,7 +24,6 @@ function chargePeptide(mf, options) {
         if (aa[firstAA] && pH>aa[firstAA].pKaC) {
 
         }
-        console.log(lastAA);
     }
 
     // basic AA
