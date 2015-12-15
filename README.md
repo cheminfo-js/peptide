@@ -46,7 +46,7 @@ __Arguments__
 * `mf` - string with the molecular formula
 * `options` - object with requested fragments. Default: `{a:false, b:true, c:false, x:false, y:true, z:false, i:false}`
 
-You can also specify internal fragments using the options 'ya' and 'yb'.
+You can also specify internal fragments using the options 'ya' and 'yb' as well as the maximal length for internal fragments 'maxInternal'
 
 ## Isoelectric Point
 
