@@ -59,8 +59,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var aa = __webpack_require__(1);
 	var IEP = __webpack_require__(2);
 	var chargePeptide = __webpack_require__(3);
-	var splitSequence = __webpack_require__(5);
-	var digestSequence = __webpack_require__(6);
+	var splitPeptide = __webpack_require__(5);
+	var digestPeptide = __webpack_require__(6);
 
 	exports.getInfo = function () {
 	    return aa;
@@ -68,17 +68,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	// sequence should be in the "right" format like HAlaGlyProOH
 
-	exports.splitSequence=splitSequence;
-	exports.digestSequence=digestSequence;
+	exports.splitPeptide=splitPeptide;
+	exports.digestPeptide=digestPeptide;
 
 	exports.calculateIEP = function (sequence) {
-	    var aas=splitSequence(sequence);
+	    var aas=splitPeptide(sequence);
 	    var result=IEP.calculateIEP(aas);
 	    return result;
 	}
 
 	exports.calculateIEPChart = function (sequence) {
-	    var aas=splitSequence(sequence);
+	    var aas=splitPeptide(sequence);
 	    var result=IEP.calculateChart(aas);
 	    return result;
 	}
@@ -89,7 +89,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	exports.calculateCharge = function (sequence, ph) {
-	    var aas=splitSequence(sequence);
+	    var aas=splitPeptide(sequence);
 	    return IEP.calculateCharge(aas, ph);
 	}
 
