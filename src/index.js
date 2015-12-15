@@ -3,6 +3,8 @@
 var aa = require('./aminoAcids');
 var IEP = require('./isoElectricPoint');
 var chargePeptide = require('./chargePeptide');
+var splitSequence = require('./splitSequence');
+var digestSequence = require('./digestSequence');
 
 exports.getInfo = function () {
     return aa;
@@ -10,16 +12,17 @@ exports.getInfo = function () {
 
 // sequence should be in the "right" format like HAlaGlyProOH
 
+exports.splitSequence=splitSequence;
+exports.digestSequence=digestSequence;
+
 exports.calculateIEP = function (sequence) {
-    var aas=sequence.replace(/([A-Z])/g," $1").split(/ /);
-    aas=aas.slice(2,aas.length-2);
+    var aas=splitSequence(sequence);
     var result=IEP.calculateIEP(aas);
     return result;
 }
 
 exports.calculateIEPChart = function (sequence) {
-    var aas=sequence.replace(/([A-Z])/g," $1").split(/ /);
-    aas=aas.slice(2,aas.length-2);
+    var aas=splitSequence(sequence);
     var result=IEP.calculateChart(aas);
     return result;
 }
@@ -30,8 +33,7 @@ exports.getColorForIEP = function (iep) {
 }
 
 exports.calculateCharge = function (sequence, ph) {
-    var aas=sequence.replace(/([A-Z])/g," $1").split(/ /);
-    aas=aas.slice(2,aas.length-2);
+    var aas=splitSequence(sequence);
     return IEP.calculateCharge(aas, ph);
 }
 
@@ -50,6 +52,7 @@ exports.generatePeptideFragments = function generatePeptideFragments(mf, options
         };
     }
     options.maxInternal = options.maxInternal || Number.MAX_VALUE;
+    options.minInternal = options.minInternal || 0;
 
     var mfs = [];
     var mfparts=mf.replace(/([a-z\)])([A-Z][a-z](?=[a-z]))/g,"$1 $2").split(/ /);
@@ -67,10 +70,12 @@ exports.generatePeptideFragments = function generatePeptideFragments(mf, options
         if (options.ya || options.yb) { // we have double fragmentations
             for (var j=i+1; j<Math.min(mfparts.length,options.maxInternal+i+1);j++) {
                 var iTerm='';
-                for (var k=i; k<j; k++) {
-                    iTerm+=mfparts[k];
+                if ((j-i)>=options.minInternal){
+                    for (var k = i; k < j; k++) {
+                        iTerm += mfparts[k];
+                    }
+                    addITerm(mfs, iTerm, mfparts.length - i, j, options);
                 }
-                addITerm(mfs, iTerm, mfparts.length-i, j, options);
             }
         }
     }

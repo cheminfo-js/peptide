@@ -43,6 +43,16 @@ describe('Generate internal fragments', function () {
         )
     });
 
+    it('Check internal fragments for ya with maxInternal=2 and minInternal=2', function () {
+        var result=PEP.generatePeptideFragments("HAlaGlySerProPheOH",{a:false, b:false, c:false, x:false, y:false, z:false, yb:false, ya:true, minInternal: 2, maxInternal: 2});
+        result.should.be.instanceof(Array).and.have.length(2);
+        result.should.eql([
+            'HGlySerC-1O-1(+1)$a3y4',
+            'HSerProC-1O-1(+1)$a4y3'
+            ]
+        )
+    });
+
 
 });
 

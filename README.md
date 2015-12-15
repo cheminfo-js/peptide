@@ -46,7 +46,8 @@ __Arguments__
 * `mf` - string with the molecular formula
 * `options` - object with requested fragments. Default: `{a:false, b:true, c:false, x:false, y:true, z:false, i:false}`
 
-You can also specify internal fragments using the options 'ya' and 'yb' as well as the maximal length for internal fragments 'maxInternal'
+You can also specify internal fragments using the options 'ya' and 'yb' as well as the minimal length of internal fragments 'minInternal'
+and the maximal length of internal fragments 'maxInternal'
 
 ## Isoelectric Point
 
@@ -62,6 +63,35 @@ __Arguments__
 
 * `sequence` - string with the amino acids sequence
 * `ph` - ph for which to calculate the charge. Default: 7.0
+
+#### splitSequence(sequence)
+
+Split a 3 letter code sequence respecting uppercase, lowercase in an array of residu.
+
+__Arguments__
+
+* `sequence` - string with the amino acids sequence
+
+#### digestSequence(sequence, options)
+
+Allows to digest virtually a sequence
+
+__Arguments__
+
+* `sequence` - string with the amino acids sequence
+* `options`
+  * `minMissed` - minimal missed cleavage (default: 0)
+  * `maxMissed` - maximal missed cleavage (default: 0)
+  * `minResidue` - minimal number of residues (default: 0)
+  * `maxResidue` - maximal number of residues (default: infinity)
+  * `enzyme` - enzyme used for digestion
+    * chymotrypsin : (Phe|Tyr|Trp)(?!Pro)
+    * trypsin : (Lys|Arg)(?!Pro)
+    * lysc : (Lys)(?!Pro)
+    * glucph4 : (Glu)(?!Pro|Glu)
+    * glucph8 : (Asp|Glu)(?!Pro|Glu)
+    * thermolysin : (Leu|Ile|Met|Phe|Trp)
+    * cyanogenbromide : (Met)
 
 #### calculateIEP(sequence)
 
