@@ -3,13 +3,6 @@
 var PEP = require('..');
 
 
-describe('Checking charge peptide', function () {
-    var result=PEP.chargePeptide("HAlaGlyLysHisAspOH");
-    it('Check charge', function () {
-        result.should.eql("H+HAlaGlyLys(H+)His(H+)AspOH");
-    });
-});
-
 describe('Checking convert AA sequence', function () {
     var result1=PEP.convertAASequence("AAAAAAA");
     it('Check AAAAAAA', function () {

@@ -58,7 +58,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var aa = __webpack_require__(1);
 	var IEP = __webpack_require__(2);
-
+	var chargePeptide = __webpack_require__(3);
 
 	exports.getInfo = function () {
 	    return aa;
@@ -138,9 +138,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	};
 
-	exports.chargePeptide = function chargePeptide(mf) {
-	    return mf.replace(/^H([^+])/, 'H+H$1').replace(/(Arg|His|Lys)(?!\()/g, '$1(H+)');
-	};
+	exports.chargePeptide = chargePeptide;
+
 
 	function aa1To3(code) {
 	    for (var i = 0; i < aa.length; i++) {
@@ -611,6 +610,86 @@ return /******/ (function(modules) { // webpackBootstrap
 	    calculateChart: calculateChart,
 	    getColor: getColor
 	}
+
+
+
+/***/ },
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var getAA = __webpack_require__(4);
+
+	// SOURCE: https://en.wikipedia.org/wiki/Amino_acid
+
+	function chargePeptide(mf, options) {
+	    var options=options || {};
+	    if (options.pH === undefined) options.pH=0;
+	    var pH=options.pH;
+	    // we will allow to charge the peptide at a specific pH
+
+	    // first amino acids (N-terminal)
+	    if (mf.match(/^H[A-Z][a-z]{2}/)) {
+	        var firstAA=mf.replace(/^H([A-Z][a-z]{2}).*/,"$1");
+	        if (getAA(firstAA) && pH<getAA(firstAA).pKaN) {
+	            mf=mf.replace(/^H([^+])/, 'H+H$1');
+	        }
+	    }
+
+	    // last amino acids (C-terminal)
+	    if (mf.match(/[A-Z][a-z]{2}OH$/)) {
+	        var lastAA=mf.replace(/.*([A-Z][a-z]{2})OH$/,"$1");
+	        if (getAA(firstAA) && pH>getAA(firstAA).pKaC) {
+	            mf=mf.replace(/OH$/, 'O-');
+	        }
+	    }
+
+	    // basic AA
+	    if (pH < getAA('Arg').sc.pKa) mf=mf.replace(/(Arg)(?!\()/g, '$1(H+)');
+	    if (pH < getAA('His').sc.pKa) mf=mf.replace(/(His)(?!\()/g, '$1(H+)');
+	    if (pH < getAA('Lys').sc.pKa) mf=mf.replace(/(Lys)(?!\()/g, '$1(H+)');
+
+	    // acid AA
+	    if (pH > getAA('Asp').sc.pKa) mf=mf.replace(/(Asp)(?!\()/g, '$1(H-1-)');
+	    if (pH > getAA('Glu').sc.pKa) mf=mf.replace(/(Glu)(?!\()/g, '$1(H-1-)');
+
+	    if (pH > getAA('Cys').sc.pKa) mf=mf.replace(/(Cys)(?!\()/g, '$1(H-1-)');
+
+	    return mf;
+	};
+
+	module.exports = chargePeptide;
+
+
+
+/***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var aa = __webpack_require__(1);
+
+	function getAA(code) {
+	    if (code.length===1) {
+	        for (var i = 0; i < aa.length; i++) {
+	            if (aa[i].aa1 === code) {
+	                return aa[i];
+	            }
+	        }
+	    }
+	    if (code.length===3) {
+	        for (var i = 0; i < aa.length; i++) {
+	            if (aa[i].aa3 === code) {
+	                return aa[i];
+	            }
+	        }
+	    }
+	}
+
+
+	module.exports = getAA;
 
 
 

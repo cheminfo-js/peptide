@@ -24,9 +24,13 @@ __Arguments__
 
 * `sequence` - string with the amino acids sequence
 
-#### chargePeptide(mf)
+#### chargePeptide(mf, options)
 
-Add a positive charge on Arg, His and Lys
+Charge the peptide at a specific pH
+
+options:
+* pH : you may specify the pH to calculate the protonation state. By default: 0,
+  it has the consequence to add a positive charge on Arg, His and Lys.
 
 __Arguments__
 
