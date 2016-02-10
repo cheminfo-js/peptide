@@ -2,6 +2,16 @@
 
 var splitSequence=require('./splitPeptide');
 
+
+/*
+Iotuibs:
+* minMissed (default: 0)
+* maxMissed (default: 0)
+* minResidue: 0;
+* maxResidue: infinity
+* enzyme: chymotrypsin, trypsin, glucph4, glucph8, thermolysin, cyanogenbromide : Mandatory, no default value !
+ */
+
 function digestSequence(sequence, options) {
     var options=options || {};
 
