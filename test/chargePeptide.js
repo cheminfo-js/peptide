@@ -24,6 +24,11 @@ describe('Checking charge peptide', function () {
         result.should.eql("HAlaGlyLysHisAsp(H-1-)O-");
     });
 
+    it('Charge an array of mfs', function () {
+        var result=PEP.chargePeptide(["HAlaGlyLysHisAspOH","HLysHisAspOH"], {pH: 13});
+        result.should.eql(["HAlaGlyLysHisAsp(H-1-)O-","HLysHisAsp(H-1-)O-"]);
+    });
+
 });
 
 
