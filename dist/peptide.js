@@ -631,6 +631,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	// SOURCE: https://en.wikipedia.org/wiki/Amino_acid
 
 	function chargePeptide(mf, options) {
+	    if (Array.isArray(mf)) {
+	        for (var i=0; i<mf.length; i++) {
+	            mf[i]=chargeOnePeptide(mf[i], options);
+	        }
+	        return mf;
+	    } else {
+	        return chargeOnePeptide(mf, options);
+	    }
+	}
+
+	function chargeOnePeptide(mf, options) {
 	    var options=options || {};
 	    if (options.pH === undefined) options.pH=0;
 	    var pH=options.pH;
@@ -732,6 +743,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	var splitSequence=__webpack_require__(5);
+
+
+	/*
+	Iotuibs:
+	* minMissed (default: 0)
+	* maxMissed (default: 0)
+	* minResidue: 0;
+	* maxResidue: infinity
+	* enzyme: chymotrypsin, trypsin, glucph4, glucph8, thermolysin, cyanogenbromide : Mandatory, no default value !
+	 */
 
 	function digestSequence(sequence, options) {
 	    var options=options || {};
