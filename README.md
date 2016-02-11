@@ -26,7 +26,7 @@ __Arguments__
 
 #### chargePeptide(mf, options)
 
-Charge the peptide at a specific pH
+Charge the peptide at a specific pH. 'mf' is either a 3 letter peptide sequence or an array of peptide sequences.
 
 options:
 * pH : you may specify the pH to calculate the protonation state. By default: 0,
