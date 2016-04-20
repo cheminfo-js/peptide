@@ -35,6 +35,17 @@ __Arguments__
  * pH : you may specify the pH to calculate the protonation state. By default: 0,
    it has the consequence to add a positive charge on Arg, His and Lys.
 
+#### allowNeutralLoss(mf, options)
+
+Allow neutral loss :
+- H2O for S, T, E, D residues
+- NH3 for R, K, Q, N residues
+
+The residues may not be modified.
+
+__Arguments__
+
+* `mf` - string with a molecular formula to charge
 
 
 #### generatePeptideFragments(mf, [options])

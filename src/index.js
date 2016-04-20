@@ -3,6 +3,7 @@
 var aa = require('./aminoAcids');
 var IEP = require('./isoElectricPoint');
 var chargePeptide = require('./chargePeptide');
+var allowNeutralLoss = require('./allowNeutralLoss');
 var splitPeptide = require('./splitPeptide');
 var digestPeptide = require('./digestPeptide');
 
@@ -90,7 +91,7 @@ exports.generatePeptideFragments = function generatePeptideFragments(mf, options
 };
 
 exports.chargePeptide = chargePeptide;
-
+exports.allowNeutralLoss = allowNeutralLoss;
 
 function aa1To3(code) {
     for (var i = 0; i < aa.length; i++) {
