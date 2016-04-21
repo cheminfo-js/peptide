@@ -5,6 +5,8 @@ var getAA = require('./getAA');
 // SOURCE: https://en.wikipedia.org/wiki/Amino_acid
 
 function chargePeptide(mf, options) {
+    var options=options || {};
+    if (options.pH === undefined) options.pH=0;
     if (Array.isArray(mf)) {
         for (var i=0; i<mf.length; i++) {
             mf[i]=chargeOnePeptide(mf[i], options);
@@ -16,8 +18,6 @@ function chargePeptide(mf, options) {
 }
 
 function chargeOnePeptide(mf, options) {
-    var options=options || {};
-    if (options.pH === undefined) options.pH=0;
     var pH=options.pH;
     // we will allow to charge the peptide at a specific pH
 
