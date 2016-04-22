@@ -59,8 +59,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	var aa = __webpack_require__(1);
 	var IEP = __webpack_require__(2);
 	var chargePeptide = __webpack_require__(3);
-	var splitPeptide = __webpack_require__(5);
-	var digestPeptide = __webpack_require__(6);
+	var allowNeutralLoss = __webpack_require__(5);
+	var splitPeptide = __webpack_require__(6);
+	var digestPeptide = __webpack_require__(7);
 
 	exports.getInfo = function () {
 	    return aa;
@@ -146,7 +147,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	exports.chargePeptide = chargePeptide;
-
+	exports.allowNeutralLoss = allowNeutralLoss;
 
 	function aa1To3(code) {
 	    for (var i = 0; i < aa.length; i++) {
@@ -715,6 +716,33 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 5 */
 /***/ function(module, exports) {
 
+	
+	function allowNeutralLoss(mf, options) {
+	    if (Array.isArray(mf)) {
+	        for (var i=0; i<mf.length; i++) {
+	            mf[i]=allowOneNeutralLoss(mf[i], options);
+	        }
+	        return mf;
+	    } else {
+	        return allowOneNeutralLoss(mf, options);
+	    }
+	}
+
+	function allowOneNeutralLoss(mf, options) {
+	    mf=mf.replace(/(Ser|Thr|Asp|Glu)(?!\()/g, '$1(H-2O-1)0-1');
+	    mf=mf.replace(/(Arg|Lys|Asn|Gln)(?!\()/g, '$1(N-1H-3)0-1');
+
+	    return mf;
+	};
+
+	module.exports = allowNeutralLoss;
+
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
 	'use strict';
 
 	function splitSequence(sequence) {
@@ -737,12 +765,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var splitSequence=__webpack_require__(5);
+	var splitSequence=__webpack_require__(6);
 
 
 	/*
