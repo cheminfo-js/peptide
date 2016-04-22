@@ -105,4 +105,3 @@ exports.convertAASequence = function convertAASequence(mf) {
     return newmf;
 
 };
-

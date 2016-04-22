@@ -19,6 +19,4 @@ function getAA(code) {
     }
 }
 
-
 module.exports = getAA;
-
