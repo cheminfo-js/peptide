@@ -18,7 +18,8 @@ module.exports = function(mf, options) {
     options.minInternal = options.minInternal || 0;
 
     var mfs = [];
-    var mfparts=mf.replace(/([a-z\)])([A-Z][a-z](?=[a-z]))/g,"$1 $2").split(/ /);
+    // need to allow 0-9 to deal with neutral loss
+    var mfparts=mf.replace(/([a-z\)0-9])([A-Z][a-z](?=[a-z]))/g,"$1 $2").split(/ /);
 
     var nTerm="";
     var cTerm="";
