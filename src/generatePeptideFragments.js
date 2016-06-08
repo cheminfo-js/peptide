@@ -10,8 +10,10 @@ module.exports = function(mf, options) {
             y: true,
             z: false,
             i: false,
+            ya: false,
             yb: false,
-            ya: false
+            yc: false,
+            zc: false
         };
     }
     options.maxInternal = options.maxInternal || Number.MAX_VALUE;
@@ -31,10 +33,10 @@ module.exports = function(mf, options) {
         addCTerm(mfs, cTerm, i, options);
         if (options.i) mfs.push(mfparts[i]+"HC-1O-1(+1)$i:"+mfparts[i]);
 
-        if (options.ya || options.yb) { // we have double fragmentations
+        if (options.ya || options.yb || options.yc || options.zc) { // we have double fragmentations
             for (var j=i+1; j<Math.min(mfparts.length,options.maxInternal+i+1);j++) {
                 var iTerm='';
-                if ((j-i)>=options.minInternal){
+                if ((j-i)>=options.minInternal) {
                     for (var k = i; k < j; k++) {
                         iTerm += mfparts[k];
                     }
@@ -43,7 +45,6 @@ module.exports = function(mf, options) {
             }
         }
     }
-
 
     if (mfs.length === 0) {
         mfs = mfs.concat([mf]);
@@ -62,6 +63,8 @@ function addNTerm(mfs, nTerm, i, options) {
 function addITerm(mfs, iTerm, i, j, options) {
     if (options.ya) mfs.push("H"+iTerm+"C-1O-1(+1)$a"+j+"y"+i);
     if (options.yb) mfs.push("H"+iTerm+"(+1)$b"+j+"y"+i);
+    if (options.yc) mfs.push("H"+iTerm+"NH3(+1)$c"+j+"y"+i);
+    if (options.zc) mfs.push("N-1"+iTerm+"NH3(+1)$c"+j+"z"+i);
 }
 
 function addCTerm(mfs, cTerm, i, options) {
