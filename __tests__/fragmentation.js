@@ -25,6 +25,13 @@ var allowed=[
 
 describe('Check fragmentation', () => {
     
+    test('Check KA', () => {
+        var sequence=PEP.convertAASequence('KAA');
+        console.log(sequence);
+        var result=PEP.generatePeptideFragments(sequence,{a:false, b:true, c:false, x:false, y:true, z:false, yb:false, ya:false});
+        expect(result).toHaveLength(4);
+    });
+
     test('Check AKLRCSTY', () => {
         var sequence=PEP.convertAASequence('AKLRCSTY');
         var result=PEP.generatePeptideFragments(sequence,{a:false, b:true, c:false, x:false, y:true, z:false, yb:false, ya:false});
@@ -32,17 +39,20 @@ describe('Check fragmentation', () => {
         checkAllowed(result);
     });
 
-    /*
-    test('Check AKLRCSTY neutral loss ph=1', () => {
-        var sequence=PEP.convertAASequence('HLys(COH)AlaOH');
-        sequence=PEP.allowNeutralLoss(sequence);
-        sequence=PEP.chargePeptide(sequence, {pH: 1});
-        console.log(sequence);
-        var result=PEP.generatePeptideFragments(sequence,{a:false, b:true, c:false, x:false, y:true, z:false, yb:false, ya:false});
-        expect(result).toHaveLength(114);
-        checkAllowed(result);
-    })
-    */;
+
+
+    test('Check HLysAlaOH', () => {
+        var result=PEP.generatePeptideFragments('HLysAlaOH',{a:false, b:true, c:false, x:false, y:true, z:false, yb:false, ya:false});
+        expect(result).toHaveLength(2);
+        expect(result).toEqual( [ 'HLys(+1)$b1', 'H2(+1)AlaOH$y1' ]);
+    });
+
+    
+    test.only('Check HLys(COH)AlaOH side chain modified', () => {
+        var result=PEP.generatePeptideFragments('HLys(COH)AlaOH',{a:false, b:true, c:false, x:false, y:true, z:false, yb:false, ya:false});
+        expect(result).toHaveLength(2);
+        expect(result).toEqual( ["HLys(COH)(+1)$b1", "H2(+1)AlaOH$y1"]);
+    });
 
     test('Check AKLRCSTY ph=1', () => {
         var sequence=PEP.convertAASequence('AKLRCSTY');
