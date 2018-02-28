@@ -28,15 +28,27 @@ describe('Check fragmentation', () => {
     test('Check AKLRCSTY', () => {
         var sequence=PEP.convertAASequence('AKLRCSTY');
         var result=PEP.generatePeptideFragments(sequence,{a:false, b:true, c:false, x:false, y:true, z:false, yb:false, ya:false});
-        expect(result).to.be.instanceof(Array).toHaveLength(14);
+        expect(result).toHaveLength(14);
         checkAllowed(result);
     });
+
+    /*
+    test('Check AKLRCSTY neutral loss ph=1', () => {
+        var sequence=PEP.convertAASequence('HLys(COH)AlaOH');
+        sequence=PEP.allowNeutralLoss(sequence);
+        sequence=PEP.chargePeptide(sequence, {pH: 1});
+        console.log(sequence);
+        var result=PEP.generatePeptideFragments(sequence,{a:false, b:true, c:false, x:false, y:true, z:false, yb:false, ya:false});
+        expect(result).toHaveLength(114);
+        checkAllowed(result);
+    })
+    */;
 
     test('Check AKLRCSTY ph=1', () => {
         var sequence=PEP.convertAASequence('AKLRCSTY');
         sequence=PEP.chargePeptide(sequence, {pH: 1});
         var result=PEP.generatePeptideFragments(sequence,{a:false, b:true, c:false, x:false, y:true, z:false, yb:false, ya:false});
-        expect(result).to.be.instanceof(Array).toHaveLength(14);
+        expect(result).toHaveLength(14);
         checkAllowed(result);
     });
 
@@ -44,7 +56,7 @@ describe('Check fragmentation', () => {
         var sequence=PEP.convertAASequence('AKLRCSTY');
         sequence=PEP.chargePeptide(sequence, {pH: 13});
         var result=PEP.generatePeptideFragments(sequence,{a:false, b:true, c:false, x:false, y:true, z:false, yb:false, ya:false});
-        expect(result).to.be.instanceof(Array).toHaveLength(14);
+        expect(result).toHaveLength(14);
         checkAllowed(result);
     });
 
@@ -53,7 +65,7 @@ describe('Check fragmentation', () => {
         sequence=PEP.allowNeutralLoss(sequence);
         sequence=PEP.chargePeptide(sequence, {pH: 1});
         var result=PEP.generatePeptideFragments(sequence,{a:false, b:true, c:false, x:false, y:true, z:false, yb:false, ya:false});
-        expect(result).to.be.instanceof(Array).toHaveLength(14);
+        expect(result).toHaveLength(14);
         checkAllowed(result);
     });
 
@@ -62,7 +74,7 @@ describe('Check fragmentation', () => {
         sequence=PEP.allowNeutralLoss(sequence);
         sequence=PEP.chargePeptide(sequence, {pH: 13});
         var result=PEP.generatePeptideFragments(sequence,{a:false, b:true, c:false, x:false, y:true, z:false, yb:false, ya:false});
-        expect(result).to.be.instanceof(Array).toHaveLength(14);
+        expect(result).toHaveLength(14);
         checkAllowed(result);
     });
 
@@ -70,7 +82,7 @@ describe('Check fragmentation', () => {
         var sequence=PEP.convertAASequence('AKLRCSTY');
         sequence=PEP.allowNeutralLoss(sequence);
         var result=PEP.generatePeptideFragments(sequence,{a:false, b:true, c:false, x:false, y:true, z:false, yb:false, ya:false});
-        expect(result).to.be.instanceof(Array).toHaveLength(14);
+        expect(result).toHaveLength(14);
         checkAllowed(result);
     });
 });
@@ -87,6 +99,6 @@ function clean(mfs) {
 function checkAllowed(mfs) {
     clean(mfs);
     for (var mf of mfs) {
-        expect(allowed.indexOf(mf)).to.be.greaterThan(-1);
+        expect(allowed).toContain(mf);
     }
 }

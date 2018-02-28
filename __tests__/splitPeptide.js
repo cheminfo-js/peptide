@@ -19,6 +19,7 @@ describe('Checking split peptide', () => {
         expect(result).toEqual(["Ala","Gly","Lys","His","Asp"]);
     });
 
+    
 });
 
 

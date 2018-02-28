@@ -19,7 +19,7 @@ describe('Checking convert AA sequence', () => {
 describe('Generate peptide fragments default options', () => {
     var result=PEP.generatePeptideFragments("HAlaGlySerOH");
     test('Check array and length', () => {
-        expect(result).to.be.instanceof(Array).toHaveLength(4);
+        expect(result).toHaveLength(4);
     });
     test('Check first value', () => {
         expect(result).toHaveProperty("0", "HAla(+1)$b1");
@@ -30,7 +30,7 @@ describe('Generate peptide fragments default options', () => {
 describe('Generate non natural peptide fragments default options', () => {
     var result=PEP.generatePeptideFragments("HAla(H-1Ph)Gly(Ts)SerOH");
     test('Check array and length', () => {
-        expect(result).to.be.instanceof(Array).toHaveLength(4);
+        expect(result).toHaveLength(4);
     });
     test('Check first value', () => {
         expect(result).toHaveProperty("0", "HAla(H-1Ph)(+1)$b1");
@@ -41,7 +41,7 @@ describe('Generate non natural peptide fragments default options', () => {
 describe('Generate peptide fragments all fragments', () => {
     var result=PEP.generatePeptideFragments("HAlaGlySerOH",{a:true, b:true, c:true, x:true, y:true, z:true});
     test('Check array and length', () => {
-        expect(result).to.be.instanceof(Array).toHaveLength(12);
+        expect(result).toHaveLength(12);
     });
 });
 
@@ -55,10 +55,10 @@ describe('Check isoelectric point - One point', () => {
 describe('Check isoelectric point - One point', () => {
     var result = PEP.calculateIEPChart("HAlaGlySerLysLysHisOH");
     test('Check y array and length', () => {
-        expect(result.y).to.be.instanceof(Array).toHaveLength(1401);
+        expect(result.y).toHaveLength(1401);
     });
     test('Check yAbs array and length', () => {
-        expect(result.yAbs).to.be.instanceof(Array).toHaveLength(1401);
+        expect(result.yAbs).toHaveLength(1401);
     });
 });
 

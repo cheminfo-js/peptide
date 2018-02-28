@@ -8,7 +8,7 @@ describe('Generate internal fragments', () => {
 
     test('Check internal fragments for yb', () => {
         var result=PEP.generatePeptideFragments("HAlaGlySerProPheOH",{a:false, b:false, c:false, x:false, y:false, z:false, yb:true, ya:false});
-        expect(result).to.be.instanceof(Array).toHaveLength(6);
+        expect(result).toHaveLength(6);
         expect(result).toEqual([
             'HGly(+1)$b2y4',
             'HGlySer(+1)$b3y4',
@@ -20,7 +20,7 @@ describe('Generate internal fragments', () => {
 
     test('Check internal fragments for ya', () => {
         var result=PEP.generatePeptideFragments("HAlaGlySerProPheOH",{a:false, b:false, c:false, x:false, y:false, z:false, yb:false, ya:true});
-        expect(result).to.be.instanceof(Array).toHaveLength(6);
+        expect(result).toHaveLength(6);
         expect(result).toEqual([
                 'HGlyC-1O-1(+1)$a2y4',
                 'HGlySerC-1O-1(+1)$a3y4',
@@ -32,7 +32,7 @@ describe('Generate internal fragments', () => {
 
     test('Check internal fragments for ya with maxInternal=2', () => {
         var result=PEP.generatePeptideFragments("HAlaGlySerProPheOH",{a:false, b:false, c:false, x:false, y:false, z:false, yb:false, ya:true, maxInternal: 2});
-        expect(result).to.be.instanceof(Array).toHaveLength(5);
+        expect(result).toHaveLength(5);
         expect(result).toEqual([ 'HGlyC-1O-1(+1)$a2y4',
                 'HGlySerC-1O-1(+1)$a3y4',
                 'HSerC-1O-1(+1)$a3y3',
@@ -44,7 +44,7 @@ describe('Generate internal fragments', () => {
         'Check internal fragments for ya with maxInternal=2 and minInternal=2',
         () => {
             var result=PEP.generatePeptideFragments("HAlaGlySerProPheOH",{a:false, b:false, c:false, x:false, y:false, z:false, yb:false, ya:true, minInternal: 2, maxInternal: 2});
-            expect(result).to.be.instanceof(Array).toHaveLength(2);
+            expect(result).toHaveLength(2);
             expect(result).toEqual([
                 'HGlySerC-1O-1(+1)$a3y4',
                 'HSerProC-1O-1(+1)$a4y3'
