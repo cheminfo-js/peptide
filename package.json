@@ -23,13 +23,14 @@
     "test": "test"
   },
   "scripts": {
-    "test": "mocha --require should --reporter mocha-better-spec-reporter --recursive",
+    "test": "jest",
     "build": "cheminfo build --root Peptide"
   },
   "devDependencies": {
     "cheminfo-tools": "^1.0.2",
-    "mocha": "^2.2.5",
-    "mocha-better-spec-reporter": "^2.1.1",
     "should": "^7.0.2"
+  },
+  "dependencies": {
+    "jest": "^22.4.2"
   }
 }
