@@ -48,12 +48,15 @@ function calculateChart(aas) {
     var combined=combine(aas);
     if (!combined) return;
     var y=[];
+    var x=[];
     var yAbs=[];
     for (var i=0; i<=14; i=i+0.01) {
         var charge=calculateForPh(combined, i);
+        x.push(i);
         y.push(charge);
         yAbs.push(Math.abs(charge));
     }
+    combined.x=x;
     combined.y=y;
     combined.yAbs=yAbs;
 
