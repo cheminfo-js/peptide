@@ -1,6 +1,6 @@
 /**
  * peptide - Peptide
- * @version v1.6.0
+ * @version v1.6.1
  * @link https://github.com/cheminfo-js/peptide
  * @license MIT
  */
@@ -404,7 +404,7 @@ function capitalizeAA3(mf) {
     return mf;
 }
 
-exports.convertAASequence = function convertAASequence(mf) {
+function convertAASequence(mf) {
     // this function will check if it is a sequence of aa in 1 letter or 3 letters and convert them if it is the case
     // it could be a multiline mf !
     // if it is a multiline we could make some "tricks" ...
@@ -438,6 +438,10 @@ exports.convertAASequence = function convertAASequence(mf) {
 
     return newmf;
 };
+
+exports.convertAASequence = convertAASequence;
+
+exports.sequenceToMF = convertAASequence;
 
 /***/ }),
 /* 3 */
