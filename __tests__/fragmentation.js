@@ -48,7 +48,7 @@ describe('Check fragmentation', () => {
     });
 
     
-    test.only('Check HLys(COH)AlaOH side chain modified', () => {
+    test('Check HLys(COH)AlaOH side chain modified', () => {
         var result=PEP.generatePeptideFragments('HLys(COH)AlaOH',{a:false, b:true, c:false, x:false, y:true, z:false, yb:false, ya:false});
         expect(result).toHaveLength(2);
         expect(result).toEqual( ["HLys(COH)(+1)$b1", "H2(+1)AlaOH$y1"]);

@@ -30,11 +30,11 @@
   },
   "devDependencies": {
     "cheminfo-tools": "^1.20.2",
-    "eslint": "^4.19.1",
+    "eslint": "^5.14.1",
     "eslint-config-cheminfo": "^1.18.0",
-    "eslint-plugin-jest": "^21.18.0",
+    "eslint-plugin-jest": "^22.3.0",
     "eslint-plugin-no-only-tests": "^2.0.1",
-    "jest": "^22.4.4"
+    "jest": "^24.1.0"
   },
   "dependencies": {}
 }
