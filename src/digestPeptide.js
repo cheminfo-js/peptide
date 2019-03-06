@@ -22,18 +22,22 @@ function digestSequence(sequence, options) {
   if (options.minResidue === undefined) options.minResidue = 0;
   if (options.maxResidue === undefined) options.maxResidue = Number.MAX_VALUE;
   var regexp = getRegexp(options.enzyme);
-  var fragments = sequence.replace(regexp, '$1 ').split(/ /);
-  if (!fragments[fragments.length - 1])
-    fragments = fragments.slice(0, fragments.length - 1);
+  var fragments = sequence
+    .replace(regexp, '$1 ')
+    .split(/ /)
+    .filter(entry => entry);
 
   var from = 0;
   for (var i = 0; i < fragments.length; i++) {
-    var nbResidue = splitSequence(fragments[i]).length;
+    var nbResidue = fragments[i]
+      .replace(/([A-Z][a-z][a-z])/g, ' $1')
+      .split(/ /)
+      .filter(entry => entry).length;
     fragments[i] = {
       sequence: fragments[i],
       nbResidue: nbResidue,
-      from: from + 1,
-      to: from + nbResidue
+      from: from,
+      to: from + nbResidue - 1
     };
     from += nbResidue;
   }
@@ -52,8 +56,8 @@ function digestSequence(sequence, options) {
         fragment += fragments[k].sequence;
         nbResidue += fragments[k].nbResidue;
       }
-      var from = fragments[i].from;
-      var to = fragments[i + j].to;
+      var from = fragments[i].from + 1;
+      var to = fragments[i + j].to + 1;
       if (
         fragment &&
         nbResidue >= options.minResidue &&
@@ -83,6 +87,8 @@ function getRegexp(enzyme) {
       return /()(?=Ile|Leu|Val|Ala|Met|Phe)/g;
     case 'cyanogenbromide':
       return /(Met)/g;
+    case 'all':
+      return /()(?=[A-Z][a-z][a-z])/g;
   }
   throw new Error('Digestion enzyme: ' + enzyme + ' is unknown');
 }

@@ -50,4 +50,14 @@ describe('Checking digest sequence', () => {
     });
     expect(result).toEqual(['HLysOH$D1>1', 'HLeuProOH$D2>3', 'HValOH$D4>4']);
   });
+
+  test('HLysLeu(H-1OH)ValOH digest at all amide bonds', () => {
+    var result = PEP.digestPeptide('HLysLeu(H-1OH)ValOH', {
+      enzyme: 'all',
+      minMissed: 1,
+      maxMissed: 1
+    });
+
+    expect(result).toEqual(['HLysLeu(H-1OH)OH$D1>2', 'HLeu(H-1OH)ValOH$D2>3']);
+  });
 });
