@@ -1,6 +1,6 @@
 /**
  * peptide - Peptide
- * @version v1.6.2
+ * @version v1.7.0
  * @link https://github.com/cheminfo-js/peptide
  * @license MIT
  */
@@ -330,7 +330,7 @@ module.exports = [// Standard amino acids
 
 
 function splitSequence(sequence) {
-  var aas = sequence.replace(/([A-Z])/g, " $1").split(/ /);
+  var aas = sequence.replace(/([A-Z])/g, ' $1').split(/ /);
   var begin = 0;
 
   while (aas[begin] === '' || aas[begin] === 'H') {
@@ -771,17 +771,16 @@ function digestSequence(sequence, options) {
   if (options.minResidue === undefined) options.minResidue = 0;
   if (options.maxResidue === undefined) options.maxResidue = Number.MAX_VALUE;
   var regexp = getRegexp(options.enzyme);
-  var fragments = sequence.replace(regexp, '$1 ').split(/ /);
-  if (!fragments[fragments.length - 1]) fragments = fragments.slice(0, fragments.length - 1);
+  var fragments = sequence.replace(regexp, '$1 ').split(/ /).filter(entry => entry);
   var from = 0;
 
   for (var i = 0; i < fragments.length; i++) {
-    var nbResidue = splitSequence(fragments[i]).length;
+    var nbResidue = fragments[i].replace(/([A-Z][a-z][a-z])/g, ' $1').split(/ /).filter(entry => entry).length;
     fragments[i] = {
       sequence: fragments[i],
       nbResidue: nbResidue,
-      from: from + 1,
-      to: from + nbResidue
+      from: from,
+      to: from + nbResidue - 1
     };
     from += nbResidue;
   }
@@ -798,8 +797,8 @@ function digestSequence(sequence, options) {
         nbResidue += fragments[k].nbResidue;
       }
 
-      var from = fragments[i].from;
-      var to = fragments[i + j].to;
+      var from = fragments[i].from + 1;
+      var to = fragments[i + j].to + 1;
 
       if (fragment && nbResidue >= options.minResidue && nbResidue <= options.maxResidue) {
         results.push('H' + fragment + 'OH' + '$D' + from + '>' + to);
@@ -833,6 +832,9 @@ function getRegexp(enzyme) {
 
     case 'cyanogenbromide':
       return /(Met)/g;
+
+    case 'any':
+      return /()(?=[A-Z][a-z][a-z])/g;
   }
 
   throw new Error('Digestion enzyme: ' + enzyme + ' is unknown');
