@@ -87,7 +87,7 @@ function getRegexp(enzyme) {
       return /()(?=Ile|Leu|Val|Ala|Met|Phe)/g;
     case 'cyanogenbromide':
       return /(Met)/g;
-    case 'all':
+    case 'any':
       return /()(?=[A-Z][a-z][a-z])/g;
   }
   throw new Error('Digestion enzyme: ' + enzyme + ' is unknown');

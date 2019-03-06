@@ -53,7 +53,7 @@ describe('Checking digest sequence', () => {
 
   test('HLysLeu(H-1OH)ValOH digest at all amide bonds', () => {
     var result = PEP.digestPeptide('HLysLeu(H-1OH)ValOH', {
-      enzyme: 'all',
+      enzyme: 'any',
       minMissed: 1,
       maxMissed: 1
     });
