@@ -1,6 +1,6 @@
 {
   "name": "peptide",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "Peptide",
   "keywords": [
     "peptide",
@@ -29,12 +29,12 @@
     "test": "jest"
   },
   "devDependencies": {
-    "cheminfo-tools": "^1.20.2",
+    "cheminfo-tools": "^1.22.5",
     "eslint": "^5.15.1",
     "eslint-config-cheminfo": "^1.18.0",
-    "eslint-plugin-jest": "^22.3.0",
+    "eslint-plugin-jest": "^22.4.1",
     "eslint-plugin-no-only-tests": "^2.0.1",
-    "jest": "^24.1.0"
+    "jest": "^24.5.0"
   },
   "dependencies": {}
 }

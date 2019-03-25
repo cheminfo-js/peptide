@@ -1,6 +1,6 @@
 /**
  * peptide - Peptide
- * @version v1.7.0
+ * @version v1.8.0
  * @link https://github.com/cheminfo-js/peptide
  * @license MIT
  */
