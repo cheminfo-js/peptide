@@ -6,7 +6,7 @@ function convertAASequence(mf) {
   // this function will check if it is a sequence of aa in 1 letter or 3 letters and convert them if it is the case
   // it could be a multiline mf !
   // if it is a multiline we could make some "tricks" ...
-  var newmf = mf;
+  var newMF = mf;
   // SEQRES   1 B  256  MET PRO VAL GLU ILE THR VAL LYS GLU LEU LEU GLU ALA
   // SEQRES   2 B  256  GLY VAL HIS PHE GLY HIS GLU ARG LYS ARG TRP ASN PRO
   // or
@@ -18,11 +18,38 @@ function convertAASequence(mf) {
     tmpmf = tmpmf.replace(/(SEQRES|[0-9]+| [A-Z] | [0-9A-Z]{4-50})/g, '');
     // we need to correct the uppercase / lowercase
     var parts = tmpmf.split(' ');
-    newmf = 'H';
+    newMF = 'H';
     for (var i = 0; i < parts.length; i++) {
-      newmf += parts[i].substr(0, 1) + parts[i].substr(1).toLowerCase();
+      newMF += parts[i].substr(0, 1) + parts[i].substr(1).toLowerCase();
     }
-    newmf += 'OH';
+    newMF += 'OH';
+  } else if (mf.includes('(')) {
+    // we expect one letter code with modification
+    newMF = '';
+    let nTerminal = 'H';
+    let cTerminal = 'OH';
+    let parenthesisCounter = 0;
+    for (let i = 0; i < mf.length; i++) {
+      let currentSymbol = mf[i];
+      if (
+        currentSymbol === '(' ||
+        currentSymbol === ')' ||
+        parenthesisCounter > 0
+      ) {
+        if (currentSymbol === '(') {
+          parenthesisCounter++;
+          if (i === 0) nTerminal = '';
+        }
+        if (currentSymbol === ')') {
+          parenthesisCounter--;
+          if (i === mf.length - 1) cTerminal = '';
+        }
+        newMF += currentSymbol;
+        continue;
+      }
+      newMF += convertAA1To3(currentSymbol);
+    }
+    newMF = nTerminal + newMF + cTerminal;
   } else if (
     mf.search(/[A-Z]{3}/) > -1 &&
     mf.search(/[a-zA-Z][a-z0-9]/) == -1
@@ -34,13 +61,13 @@ function convertAASequence(mf) {
     //    430        440        450        460        470        480
     //SDPRLYKVWV RLSSQVPSMF FGGTDLAADY YVVSPPTAVS VYTKTPYGRL LADTRTSGFR
     // We remove all the number, all the spaces, etc
-    newmf = 'H' + converAA1To3(newmf.replace(/[^A-Z]/g, '')) + 'OH';
+    newMF = 'H' + convertAA1To3(newMF.replace(/[^A-Z]/g, '')) + 'OH';
   }
 
-  return newmf;
+  return newMF;
 }
 
-function converAA1To3(mf) {
+function convertAA1To3(mf) {
   var newmf = '';
   for (var i = 0; i < mf.length; i++) {
     newmf += aa1To3(mf.charAt(i));
