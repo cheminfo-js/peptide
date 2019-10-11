@@ -1,7 +1,5 @@
 'use strict';
 
-var splitSequence = require('./splitPeptide');
-
 /*
 Iotuibs:
 * minMissed (default: 0)
@@ -11,9 +9,7 @@ Iotuibs:
 * enzyme: chymotrypsin, trypsin, glucph4, glucph8, thermolysin, cyanogenbromide : Mandatory, no default value !
  */
 
-function digestSequence(sequence, options) {
-  var options = options || {};
-
+function digestSequence(sequence, options = {}) {
   sequence = sequence.replace(/^H([^a-z])/, '$1').replace(/OH$/, '');
 
   options.enzyme = options.enzyme || 'trypsin';
@@ -21,49 +17,49 @@ function digestSequence(sequence, options) {
   if (options.maxMissed === undefined) options.maxMissed = 0;
   if (options.minResidue === undefined) options.minResidue = 0;
   if (options.maxResidue === undefined) options.maxResidue = Number.MAX_VALUE;
-  var regexp = getRegexp(options.enzyme);
-  var fragments = sequence
+  let regexp = getRegexp(options.enzyme);
+  let fragments = sequence
     .replace(regexp, '$1 ')
     .split(/ /)
-    .filter(entry => entry);
+    .filter((entry) => entry);
 
-  var from = 0;
-  for (var i = 0; i < fragments.length; i++) {
-    var nbResidue = fragments[i]
+  let from = 0;
+  for (let i = 0; i < fragments.length; i++) {
+    let nbResidue = fragments[i]
       .replace(/([A-Z][a-z][a-z])/g, ' $1')
       .split(/ /)
-      .filter(entry => entry).length;
+      .filter((entry) => entry).length;
     fragments[i] = {
       sequence: fragments[i],
       nbResidue: nbResidue,
       from: from,
-      to: from + nbResidue - 1
+      to: from + nbResidue - 1,
     };
     from += nbResidue;
   }
 
-  var results = [];
+  let results = [];
 
-  for (var i = 0; i < fragments.length - options.minMissed; i++) {
+  for (let i = 0; i < fragments.length - options.minMissed; i++) {
     for (
-      var j = options.minMissed;
+      let j = options.minMissed;
       j <= Math.min(options.maxMissed, fragments.length - i - 1);
       j++
     ) {
-      var fragment = '';
-      var nbResidue = 0;
-      for (var k = i; k <= i + j; k++) {
+      let fragment = '';
+      let nbResidue = 0;
+      for (let k = i; k <= i + j; k++) {
         fragment += fragments[k].sequence;
         nbResidue += fragments[k].nbResidue;
       }
-      var from = fragments[i].from + 1;
-      var to = fragments[i + j].to + 1;
+      let from = fragments[i].from + 1;
+      let to = fragments[i + j].to + 1;
       if (
         fragment &&
         nbResidue >= options.minResidue &&
         nbResidue <= options.maxResidue
       ) {
-        results.push('H' + fragment + 'OH' + '$D' + from + '>' + to);
+        results.push(`H${fragment}OH$D${from}>${to}`);
       }
     }
   }
@@ -89,8 +85,9 @@ function getRegexp(enzyme) {
       return /(Met)/g;
     case 'any':
       return /()(?=[A-Z][a-z][a-z])/g;
+    default:
+      throw new Error(`Digestion enzyme: ${enzyme} is unknown`);
   }
-  throw new Error('Digestion enzyme: ' + enzyme + ' is unknown');
 }
 
 module.exports = digestSequence;

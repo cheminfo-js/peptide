@@ -19,14 +19,14 @@ exports.splitPeptide = splitPeptide;
 exports.digestPeptide = digestPeptide;
 
 exports.calculateIEP = function(sequence) {
-  var aas = splitPeptide(sequence);
-  var result = IEP.calculateIEP(aas);
+  let aas = splitPeptide(sequence);
+  let result = IEP.calculateIEP(aas);
   return result;
 };
 
 exports.calculateIEPChart = function(sequence) {
-  var aas = splitPeptide(sequence);
-  var result = IEP.calculateChart(aas);
+  let aas = splitPeptide(sequence);
+  let result = IEP.calculateChart(aas);
   return result;
 };
 
@@ -35,7 +35,7 @@ exports.getColorForIEP = function(iep) {
 };
 
 exports.calculateCharge = function(sequence, ph) {
-  var aas = splitPeptide(sequence);
+  let aas = splitPeptide(sequence);
   return IEP.calculateCharge(aas, ph);
 };
 
@@ -43,14 +43,6 @@ exports.generatePeptideFragments = generatePeptideFragments;
 
 exports.chargePeptide = chargePeptide;
 exports.allowNeutralLoss = allowNeutralLoss;
-
-function capitalizeAA3(mf) {
-  for (var i = 0; i < aa.length; i++) {
-    var regexp = new RegExp(aa[i].aa3, 'gi');
-    mf = mf.replace(regexp, aa[i].aa3);
-  }
-  return mf;
-}
 
 exports.convertAASequence = convertAASequence;
 
