@@ -1,6 +1,6 @@
 /**
  * peptide - Peptide
- * @version v1.8.0
+ * @version v1.9.0
  * @link https://github.com/cheminfo-js/peptide
  * @license MIT
  */
@@ -356,19 +356,21 @@ module.exports = splitSequence;
 "use strict";
 
 
-var aa = __webpack_require__(0);
+const aa = __webpack_require__(0);
 
-var IEP = __webpack_require__(3);
+const IEP = __webpack_require__(3);
 
-var chargePeptide = __webpack_require__(4);
+const chargePeptide = __webpack_require__(4);
 
-var allowNeutralLoss = __webpack_require__(6);
+const allowNeutralLoss = __webpack_require__(6);
 
-var splitPeptide = __webpack_require__(1);
+const splitPeptide = __webpack_require__(1);
 
-var digestPeptide = __webpack_require__(7);
+const digestPeptide = __webpack_require__(7);
 
-var generatePeptideFragments = __webpack_require__(8);
+const generatePeptideFragments = __webpack_require__(8);
+
+const convertAASequence = __webpack_require__(9);
 
 exports.getInfo = function () {
   return aa;
@@ -403,26 +405,6 @@ exports.generatePeptideFragments = generatePeptideFragments;
 exports.chargePeptide = chargePeptide;
 exports.allowNeutralLoss = allowNeutralLoss;
 
-function aa1To3(code) {
-  for (var i = 0; i < aa.length; i++) {
-    if (aa[i].aa1 === code) {
-      return aa[i].aa3;
-    }
-  }
-
-  throw new Error('Invalid 1 letter code: ' + code);
-}
-
-function converAA1To3(mf) {
-  var newmf = '';
-
-  for (var i = 0; i < mf.length; i++) {
-    newmf += aa1To3(mf.charAt(i));
-  }
-
-  return newmf;
-}
-
 function capitalizeAA3(mf) {
   for (var i = 0; i < aa.length; i++) {
     var regexp = new RegExp(aa[i].aa3, 'gi');
@@ -432,44 +414,6 @@ function capitalizeAA3(mf) {
   return mf;
 }
 
-function convertAASequence(mf) {
-  // this function will check if it is a sequence of aa in 1 letter or 3 letters and convert them if it is the case
-  // it could be a multiline mf !
-  // if it is a multiline we could make some "tricks" ...
-  var newmf = mf; // SEQRES   1 B  256  MET PRO VAL GLU ILE THR VAL LYS GLU LEU LEU GLU ALA
-  // SEQRES   2 B  256  GLY VAL HIS PHE GLY HIS GLU ARG LYS ARG TRP ASN PRO
-  // or
-  // MET PRO VAL GLU ILE THR VAL LYS GLU LEU LEU GLU ALA
-  // GLY VAL HIS PHE GLY HIS GLU ARG LYS ARG TRP ASN PRO
-
-  if (mf.search(/[A-Z]{3} [A-Z]{3} [A-Z]{3}/) > -1) {
-    // this is a PDB !
-    var tmpmf = mf.replace(/[\r\n]+/g, ' ');
-    tmpmf = tmpmf.replace(/(SEQRES|[0-9]+| [A-Z] | [0-9A-Z]{4-50})/g, ''); // we need to correct the uppercase / lowercase
-
-    var parts = tmpmf.split(' ');
-    newmf = 'H';
-
-    for (var i = 0; i < parts.length; i++) {
-      newmf += parts[i].substr(0, 1) + parts[i].substr(1).toLowerCase();
-    }
-
-    newmf += 'OH';
-  } else if (mf.search(/[A-Z]{3}/) > -1 && mf.search(/[a-zA-Z][a-z0-9]/) == -1) {
-    // UNIPROT
-    //   370        380        390        400        410        420
-    //GFKPNLRKTF VSGLFRESCG AHFYRGVDVK PFYIKKPVDN LFALMLILNR LRGWGVVGGM
-    //
-    //    430        440        450        460        470        480
-    //SDPRLYKVWV RLSSQVPSMF FGGTDLAADY YVVSPPTAVS VYTKTPYGRL LADTRTSGFR
-    // We remove all the number, all the spaces, etc
-    newmf = 'H' + converAA1To3(newmf.replace(/[^A-Z]/g, '')) + 'OH';
-  }
-
-  return newmf;
-}
-
-;
 exports.convertAASequence = convertAASequence;
 exports.sequenceToMF = convertAASequence;
 
@@ -922,6 +866,103 @@ function addCTerm(mfs, cTerm, i, options) {
   if (options.y) mfs.push("H2(+1)" + cTerm + "$y" + i);
   if (options.z) mfs.push("N-1H-1(+1)" + cTerm + "$z" + i);
 }
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+const aa = __webpack_require__(0);
+
+function convertAASequence(mf) {
+  // this function will check if it is a sequence of aa in 1 letter or 3 letters and convert them if it is the case
+  // it could be a multiline mf !
+  // if it is a multiline we could make some "tricks" ...
+  var newMF = mf; // SEQRES   1 B  256  MET PRO VAL GLU ILE THR VAL LYS GLU LEU LEU GLU ALA
+  // SEQRES   2 B  256  GLY VAL HIS PHE GLY HIS GLU ARG LYS ARG TRP ASN PRO
+  // or
+  // MET PRO VAL GLU ILE THR VAL LYS GLU LEU LEU GLU ALA
+  // GLY VAL HIS PHE GLY HIS GLU ARG LYS ARG TRP ASN PRO
+
+  if (mf.search(/[A-Z]{3} [A-Z]{3} [A-Z]{3}/) > -1) {
+    // this is a PDB !
+    var tmpmf = mf.replace(/[\r\n]+/g, ' ');
+    tmpmf = tmpmf.replace(/(SEQRES|[0-9]+| [A-Z] | [0-9A-Z]{4-50})/g, ''); // we need to correct the uppercase / lowercase
+
+    var parts = tmpmf.split(' ');
+    newMF = 'H';
+
+    for (var i = 0; i < parts.length; i++) {
+      newMF += parts[i].substr(0, 1) + parts[i].substr(1).toLowerCase();
+    }
+
+    newMF += 'OH';
+  } else if (mf.includes('(')) {
+    // we expect one letter code with modification
+    newMF = '';
+    let nTerminal = 'H';
+    let cTerminal = 'OH';
+    let parenthesisCounter = 0;
+
+    for (let i = 0; i < mf.length; i++) {
+      let currentSymbol = mf[i];
+
+      if (currentSymbol === '(' || currentSymbol === ')' || parenthesisCounter > 0) {
+        if (currentSymbol === '(') {
+          parenthesisCounter++;
+          if (i === 0) nTerminal = '';
+        }
+
+        if (currentSymbol === ')') {
+          parenthesisCounter--;
+          if (i === mf.length - 1) cTerminal = '';
+        }
+
+        newMF += currentSymbol;
+        continue;
+      }
+
+      newMF += convertAA1To3(currentSymbol);
+    }
+
+    newMF = nTerminal + newMF + cTerminal;
+  } else if (mf.search(/[A-Z]{3}/) > -1 && mf.search(/[a-zA-Z][a-z0-9]/) == -1) {
+    // UNIPROT
+    //   370        380        390        400        410        420
+    //GFKPNLRKTF VSGLFRESCG AHFYRGVDVK PFYIKKPVDN LFALMLILNR LRGWGVVGGM
+    //
+    //    430        440        450        460        470        480
+    //SDPRLYKVWV RLSSQVPSMF FGGTDLAADY YVVSPPTAVS VYTKTPYGRL LADTRTSGFR
+    // We remove all the number, all the spaces, etc
+    newMF = 'H' + convertAA1To3(newMF.replace(/[^A-Z]/g, '')) + 'OH';
+  }
+
+  return newMF;
+}
+
+function convertAA1To3(mf) {
+  var newmf = '';
+
+  for (var i = 0; i < mf.length; i++) {
+    newmf += aa1To3(mf.charAt(i));
+  }
+
+  return newmf;
+}
+
+function aa1To3(code) {
+  for (var i = 0; i < aa.length; i++) {
+    if (aa[i].aa1 === code) {
+      return aa[i].aa3;
+    }
+  }
+
+  throw new Error('Invalid 1 letter code: ' + code);
+}
+
+module.exports = convertAASequence;
 
 /***/ })
 /******/ ]);
