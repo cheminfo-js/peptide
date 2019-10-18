@@ -54,7 +54,7 @@ module.exports = [
     name: 'Cysteine',
     aa3: 'Cys',
     aa1: 'C',
-    modified: '',
+    modified: 'ς',
     sc: {
       type: 'special',
       pKa: 8.14
@@ -78,7 +78,7 @@ module.exports = [
     name: 'Glutamine',
     aa3: 'Gln',
     aa1: 'Q',
-    modified: '',
+    modified: 'ξ',
     sc: {
       type: 'polar'
     },
@@ -100,7 +100,7 @@ module.exports = [
     name: 'Histidine',
     aa3: 'His',
     aa1: 'H',
-    modified: '',
+    modified: 'ζ',
     sc: {
       type: 'positive',
       pKa: 6.04
@@ -112,7 +112,7 @@ module.exports = [
     name: 'Isoleucine',
     aa3: 'Ile',
     aa1: 'I',
-    modified: '',
+    modified: 'ι',
     sc: {
       type: 'hydrophobic'
     },
@@ -223,7 +223,7 @@ module.exports = [
     name: 'Valine',
     aa3: 'Val',
     aa1: 'V',
-    modified: '',
+    modified: 'ν',
     sc: {
       type: 'hydrophobic'
     },
