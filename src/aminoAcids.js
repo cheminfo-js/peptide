@@ -1,53 +1,54 @@
 'use strict';
 
 // SOURCE: https://en.wikipedia.org/wiki/Amino_acid
+// Link for UTF8 code for modified: https://codepoints.net/search?sc=Grek
 module.exports = [
   // Standard amino acids
   {
     name: 'Alanine',
     aa3: 'Ala',
     aa1: 'A',
-    modified: 'ɑ',
+    modified: 'α',
     sc: {
-      type: 'hydrophobic',
+      type: 'hydrophobic'
     },
     pKaC: 2.33,
-    pKaN: 9.71,
+    pKaN: 9.71
   },
   {
     name: 'Arginine',
     aa3: 'Arg',
     aa1: 'R',
-    modified: '',
+    modified: 'ρ',
     sc: {
       type: 'positive',
-      pKa: 12.1,
+      pKa: 12.1
     },
     pKaC: 2.03,
-    pKaN: 9.0,
+    pKaN: 9.0
   },
   {
     name: 'Asparagine',
     aa3: 'Asn',
     aa1: 'N',
-    modified: '',
+    modified: 'η',
     sc: {
-      type: 'polar',
+      type: 'polar'
     },
     pKaC: 2.13,
-    pKaN: 9.05,
+    pKaN: 9.05
   },
   {
     name: 'Aspartic acid',
     aa3: 'Asp',
     aa1: 'D',
-    modified: '',
+    modified: 'δ',
     sc: {
       type: 'negative',
-      pKa: 3.71,
+      pKa: 3.71
     },
     pKaC: 1.95,
-    pKaN: 9.66,
+    pKaN: 9.66
   },
   {
     name: 'Cysteine',
@@ -56,10 +57,10 @@ module.exports = [
     modified: '',
     sc: {
       type: 'special',
-      pKa: 8.14,
+      pKa: 8.14
     },
     pKaC: 1.91,
-    pKaN: 10.28,
+    pKaN: 10.28
   },
   {
     name: 'Glutamic acid',
@@ -68,10 +69,10 @@ module.exports = [
     modified: 'ε',
     sc: {
       type: 'negative',
-      pKa: 4.15,
+      pKa: 4.15
     },
     pKaC: 2.16,
-    pKaN: 9.58,
+    pKaN: 9.58
   },
   {
     name: 'Glutamine',
@@ -79,21 +80,21 @@ module.exports = [
     aa1: 'Q',
     modified: '',
     sc: {
-      type: 'polar',
+      type: 'polar'
     },
     pKaC: 2.18,
-    pKaN: 9.0,
+    pKaN: 9.0
   },
   {
     name: 'Glycine',
     aa3: 'Gly',
     aa1: 'G',
-    modified: 'ɣ',
+    modified: 'γ',
     sc: {
-      type: 'special',
+      type: 'special'
     },
     pKaC: 2.34,
-    pKaN: 9.58,
+    pKaN: 9.58
   },
   {
     name: 'Histidine',
@@ -102,10 +103,10 @@ module.exports = [
     modified: '',
     sc: {
       type: 'positive',
-      pKa: 6.04,
+      pKa: 6.04
     },
     pKaC: 1.7,
-    pKaN: 9.09,
+    pKaN: 9.09
   },
   {
     name: 'Isoleucine',
@@ -113,10 +114,10 @@ module.exports = [
     aa1: 'I',
     modified: '',
     sc: {
-      type: 'hydrophobic',
+      type: 'hydrophobic'
     },
     pKaC: 2.26,
-    pKaN: 9.6,
+    pKaN: 9.6
   },
   {
     name: 'Leucine',
@@ -124,10 +125,10 @@ module.exports = [
     aa1: 'L',
     modified: 'λ',
     sc: {
-      type: 'hydrophobic',
+      type: 'hydrophobic'
     },
     pKaC: 2.32,
-    pKaN: 9.58,
+    pKaN: 9.58
   },
   {
     name: 'Lysine',
@@ -136,10 +137,10 @@ module.exports = [
     modified: 'κ',
     sc: {
       type: 'positive',
-      pKa: 10.67,
+      pKa: 10.67
     },
     pKaC: 2.15,
-    pKaN: 9.16,
+    pKaN: 9.16
   },
   {
     name: 'Methionine',
@@ -147,21 +148,21 @@ module.exports = [
     aa1: 'M',
     modified: 'μ',
     sc: {
-      type: 'hydrophobic',
+      type: 'hydrophobic'
     },
     pKaC: 2.16,
-    pKaN: 9.08,
+    pKaN: 9.08
   },
   {
     name: 'Phenylalanine',
     aa3: 'Phe',
     aa1: 'F',
-    modified: 'ɸ',
+    modified: 'φ',
     sc: {
-      type: 'hydrophobic',
+      type: 'hydrophobic'
     },
     pKaC: 2.18,
-    pKaN: 9.09,
+    pKaN: 9.09
   },
   {
     name: 'Proline',
@@ -169,10 +170,10 @@ module.exports = [
     aa1: 'P',
     modified: 'π',
     sc: {
-      type: 'special',
+      type: 'special'
     },
     pKaC: 1.95,
-    pKaN: 10.47,
+    pKaN: 10.47
   },
   {
     name: 'Serine',
@@ -180,10 +181,10 @@ module.exports = [
     aa1: 'S',
     modified: 'σ',
     sc: {
-      type: 'polar',
+      type: 'polar'
     },
     pKaC: 2.13,
-    pKaN: 9.05,
+    pKaN: 9.05
   },
   {
     name: 'Threonine',
@@ -191,10 +192,10 @@ module.exports = [
     aa1: 'T',
     modified: 'τ',
     sc: {
-      type: 'polar',
+      type: 'polar'
     },
     pKaC: 2.2,
-    pKaN: 8.96,
+    pKaN: 8.96
   },
   {
     name: 'Tryptophan',
@@ -202,21 +203,21 @@ module.exports = [
     aa1: 'W',
     modified: 'ω',
     sc: {
-      type: 'hydrophobic',
+      type: 'hydrophobic'
     },
     pKaC: 2.38,
-    pKaN: 9.34,
+    pKaN: 9.34
   },
   {
     name: 'Tyrosine',
     aa3: 'Tyr',
     aa1: 'Y',
-    modified: 'Ψ',
+    modified: 'ψ',
     sc: {
-      type: 'hydrophobic',
+      type: 'hydrophobic'
     },
     pKaC: 2.24,
-    pKaN: 9.04,
+    pKaN: 9.04
   },
   {
     name: 'Valine',
@@ -224,41 +225,41 @@ module.exports = [
     aa1: 'V',
     modified: '',
     sc: {
-      type: 'hydrophobic',
+      type: 'hydrophobic'
     },
     pKaC: 2.27,
-    pKaN: 9.52,
+    pKaN: 9.52
   },
   // Additional
   {
     name: 'Selenocysteine',
     aa3: 'Sec',
-    aa1: 'U',
+    aa1: 'U'
   },
   {
     name: 'Pyrrolysine',
     aa3: 'Pyl',
-    aa1: 'O',
+    aa1: 'O'
   },
   // Ambiguous
   {
     name: 'Asparagine or aspartic acid',
     aa3: 'Asx',
-    aa1: 'B',
+    aa1: 'B'
   },
   {
     name: 'Glutamine or glutamic acid',
     aa3: 'Glx',
-    aa1: 'Z',
+    aa1: 'Z'
   },
   {
     name: 'Leucine or isoleucine',
     aa3: 'Xle',
-    aa1: 'J',
+    aa1: 'J'
   },
   {
     name: 'Unspecified or unknown',
     aa3: 'Xaa',
-    aa1: 'X',
-  },
+    aa1: 'X'
+  }
 ];
