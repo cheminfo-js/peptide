@@ -1,10 +1,10 @@
 'use strict';
 
-var PEP = require('..');
+let PEP = require('..');
 
 // http://www.matrixscience.com/help/fragmentation_help.html
 
-var allowed = [
+let allowed = [
   'Ala$b1',
   'AlaLys$b2',
   'AlaLysLeu$b3',
@@ -18,13 +18,13 @@ var allowed = [
   'CysSerThrTyr$y4',
   'ArgCysSerThrTyr$y5',
   'LeuArgCysSerThrTyr$y6',
-  'LysLeuArgCysSerThrTyr$y7'
+  'LysLeuArgCysSerThrTyr$y7',
 ];
 
 describe('Check fragmentation', () => {
-  test('Check KA', () => {
-    var sequence = PEP.convertAASequence('KAA');
-    var result = PEP.generatePeptideFragments(sequence, {
+  it('Check KA', () => {
+    let sequence = PEP.convertAASequence('KAA');
+    let result = PEP.generatePeptideFragments(sequence, {
       a: false,
       b: true,
       c: false,
@@ -32,14 +32,14 @@ describe('Check fragmentation', () => {
       y: true,
       z: false,
       yb: false,
-      ya: false
+      ya: false,
     });
     expect(result).toHaveLength(4);
   });
 
-  test('Check AKLRCSTY', () => {
-    var sequence = PEP.convertAASequence('AKLRCSTY');
-    var result = PEP.generatePeptideFragments(sequence, {
+  it('Check AKLRCSTY', () => {
+    let sequence = PEP.convertAASequence('AKLRCSTY');
+    let result = PEP.generatePeptideFragments(sequence, {
       a: false,
       b: true,
       c: false,
@@ -47,14 +47,14 @@ describe('Check fragmentation', () => {
       y: true,
       z: false,
       yb: false,
-      ya: false
+      ya: false,
     });
     expect(result).toHaveLength(14);
     checkAllowed(result);
   });
 
-  test('Check HLysAlaOH', () => {
-    var result = PEP.generatePeptideFragments('HLysAlaOH', {
+  it('Check HLysAlaOH', () => {
+    let result = PEP.generatePeptideFragments('HLysAlaOH', {
       a: false,
       b: true,
       c: false,
@@ -62,14 +62,14 @@ describe('Check fragmentation', () => {
       y: true,
       z: false,
       yb: false,
-      ya: false
+      ya: false,
     });
     expect(result).toHaveLength(2);
-    expect(result).toEqual(['HLys(+1)$b1', 'H2(+1)AlaOH$y1']);
+    expect(result).toStrictEqual(['HLys(+1)$b1', 'H2(+1)AlaOH$y1']);
   });
 
-  test('Check HLys(COH)AlaOH side chain modified', () => {
-    var result = PEP.generatePeptideFragments('HLys(COH)AlaOH', {
+  it('Check HLys(COH)AlaOH side chain modified', () => {
+    let result = PEP.generatePeptideFragments('HLys(COH)AlaOH', {
       a: false,
       b: true,
       c: false,
@@ -77,16 +77,16 @@ describe('Check fragmentation', () => {
       y: true,
       z: false,
       yb: false,
-      ya: false
+      ya: false,
     });
     expect(result).toHaveLength(2);
-    expect(result).toEqual(['HLys(COH)(+1)$b1', 'H2(+1)AlaOH$y1']);
+    expect(result).toStrictEqual(['HLys(COH)(+1)$b1', 'H2(+1)AlaOH$y1']);
   });
 
-  test('Check AKLRCSTY ph=1', () => {
-    var sequence = PEP.convertAASequence('AKLRCSTY');
+  it('Check AKLRCSTY ph=1', () => {
+    let sequence = PEP.convertAASequence('AKLRCSTY');
     sequence = PEP.chargePeptide(sequence, { pH: 1 });
-    var result = PEP.generatePeptideFragments(sequence, {
+    let result = PEP.generatePeptideFragments(sequence, {
       a: false,
       b: true,
       c: false,
@@ -94,16 +94,16 @@ describe('Check fragmentation', () => {
       y: true,
       z: false,
       yb: false,
-      ya: false
+      ya: false,
     });
     expect(result).toHaveLength(14);
     checkAllowed(result);
   });
 
-  test('Check AKLRCSTY ph=13', () => {
-    var sequence = PEP.convertAASequence('AKLRCSTY');
+  it('Check AKLRCSTY ph=13', () => {
+    let sequence = PEP.convertAASequence('AKLRCSTY');
     sequence = PEP.chargePeptide(sequence, { pH: 13 });
-    var result = PEP.generatePeptideFragments(sequence, {
+    let result = PEP.generatePeptideFragments(sequence, {
       a: false,
       b: true,
       c: false,
@@ -111,17 +111,17 @@ describe('Check fragmentation', () => {
       y: true,
       z: false,
       yb: false,
-      ya: false
+      ya: false,
     });
     expect(result).toHaveLength(14);
     checkAllowed(result);
   });
 
-  test('Check AKLRCSTY neutral loss ph=1', () => {
-    var sequence = PEP.convertAASequence('AKLRCSTY');
+  it('Check AKLRCSTY neutral loss ph=1', () => {
+    let sequence = PEP.convertAASequence('AKLRCSTY');
     sequence = PEP.allowNeutralLoss(sequence);
     sequence = PEP.chargePeptide(sequence, { pH: 1 });
-    var result = PEP.generatePeptideFragments(sequence, {
+    let result = PEP.generatePeptideFragments(sequence, {
       a: false,
       b: true,
       c: false,
@@ -129,17 +129,17 @@ describe('Check fragmentation', () => {
       y: true,
       z: false,
       yb: false,
-      ya: false
+      ya: false,
     });
     expect(result).toHaveLength(14);
     checkAllowed(result);
   });
 
-  test('Check AKLRCSTY neutral loss ph=13', () => {
-    var sequence = PEP.convertAASequence('AKLRCSTY');
+  it('Check AKLRCSTY neutral loss ph=13', () => {
+    let sequence = PEP.convertAASequence('AKLRCSTY');
     sequence = PEP.allowNeutralLoss(sequence);
     sequence = PEP.chargePeptide(sequence, { pH: 13 });
-    var result = PEP.generatePeptideFragments(sequence, {
+    let result = PEP.generatePeptideFragments(sequence, {
       a: false,
       b: true,
       c: false,
@@ -147,16 +147,16 @@ describe('Check fragmentation', () => {
       y: true,
       z: false,
       yb: false,
-      ya: false
+      ya: false,
     });
     expect(result).toHaveLength(14);
     checkAllowed(result);
   });
 
-  test('Check AKLRCSTY neutral loss', () => {
-    var sequence = PEP.convertAASequence('AKLRCSTY');
+  it('Check AKLRCSTY neutral loss', () => {
+    let sequence = PEP.convertAASequence('AKLRCSTY');
     sequence = PEP.allowNeutralLoss(sequence);
-    var result = PEP.generatePeptideFragments(sequence, {
+    let result = PEP.generatePeptideFragments(sequence, {
       a: false,
       b: true,
       c: false,
@@ -164,7 +164,7 @@ describe('Check fragmentation', () => {
       y: true,
       z: false,
       yb: false,
-      ya: false
+      ya: false,
     });
     expect(result).toHaveLength(14);
     checkAllowed(result);
@@ -172,9 +172,8 @@ describe('Check fragmentation', () => {
 });
 
 function clean(mfs) {
-  for (var i = 0; i < mfs.length; i++) {
-    var mf = mfs[i];
-    mfs[i] = mfs[i].replace(/\([^\(]*\)[0-9-]*/g, '');
+  for (let i = 0; i < mfs.length; i++) {
+    mfs[i] = mfs[i].replace(/\([^(]*\)[0-9-]*/g, '');
     mfs[i] = mfs[i].replace(/^[H\d+]*(?=[A-Z])/, '');
     mfs[i] = mfs[i].replace(/O[H-]\$/, '$');
   }
@@ -182,7 +181,7 @@ function clean(mfs) {
 
 function checkAllowed(mfs) {
   clean(mfs);
-  for (var mf of mfs) {
+  for (let mf of mfs) {
     expect(allowed).toContain(mf);
   }
 }
