@@ -1,6 +1,6 @@
 /**
  * peptide - Peptide
- * @version v1.9.1
+ * @version v1.10.0
  * @link https://github.com/cheminfo-js/peptide
  * @license MIT
  */
@@ -106,6 +106,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 "use strict";
  // SOURCE: https://en.wikipedia.org/wiki/Amino_acid
+// Link for UTF8 code for modified: https://codepoints.net/search?sc=Grek
 
 module.exports = [// Standard amino acids
 {
@@ -888,7 +889,7 @@ function convertAASequence(mf) {
     }
 
     newMF += 'OH';
-  } else if (mf.includes('(')) {
+  } else if (mf.includes('(') && isOneLetterCode(mf)) {
     // we expect one letter code with modification
     newMF = '';
     let nTerminal = 'H';
@@ -951,7 +952,19 @@ function aa1To3(code) {
   throw new Error("Invalid 1 letter code: ".concat(code));
 }
 
-module.exports = convertAASequence;
+module.exports = convertAASequence; // mf can contain as well parenthesis. We need to check if it is not yet a correct molecular formula
+
+function isOneLetterCode(mf) {
+  let parenthesisLevel = 0;
+
+  for (let char of mf) {
+    if (parenthesisLevel === 0 && char.match(/[a-z]/)) return false;
+    if (char === '(') parenthesisLevel++;
+    if (char === ')') parenthesisLevel--;
+  }
+
+  return true;
+}
 
 /***/ })
 /******/ ]);
