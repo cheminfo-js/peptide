@@ -6,6 +6,7 @@ function convertAASequence(mf) {
   // this function will check if it is a sequence of aa in 1 letter or 3 letters and convert them if it is the case
   // it could be a multiline mf !
   // if it is a multiline we could make some "tricks" ...
+
   let newMF = mf;
   // SEQRES   1 B  256  MET PRO VAL GLU ILE THR VAL LYS GLU LEU LEU GLU ALA
   // SEQRES   2 B  256  GLY VAL HIS PHE GLY HIS GLU ARG LYS ARG TRP ASN PRO
@@ -23,7 +24,7 @@ function convertAASequence(mf) {
       newMF += parts[i].substr(0, 1) + parts[i].substr(1).toLowerCase();
     }
     newMF += 'OH';
-  } else if (mf.includes('(')) {
+  } else if (mf.includes('(') && isOneLetterCode(mf)) {
     // we expect one letter code with modification
     newMF = '';
     let nTerminal = 'H';
@@ -85,3 +86,14 @@ function aa1To3(code) {
 }
 
 module.exports = convertAASequence;
+
+// mf can contain as well parenthesis. We need to check if it is not yet a correct molecular formula
+function isOneLetterCode(mf) {
+  let parenthesisLevel = 0;
+  for (let char of mf) {
+    if (parenthesisLevel === 0 && char.match(/[a-z]/)) return false;
+    if (char === '(') parenthesisLevel++;
+    if (char === ')') parenthesisLevel--;
+  }
+  return true;
+}
