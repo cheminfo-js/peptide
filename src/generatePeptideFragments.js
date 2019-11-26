@@ -28,6 +28,19 @@ module.exports = function(mf, options) {
   let nTerm = '';
   let cTerm = '';
 
+  if (mfparts[0].startsWith('(')) {
+    nTerm += mfparts[0];
+    mfparts = mfparts.splice(1);
+  }
+
+  if (mfparts[mfparts.length - 1].includes('(')) {
+    cTerm += mfparts[mfparts.length - 1].replace(/^[^()]*/, '');
+    mfparts[mfparts.length - 1] = mfparts[mfparts.length - 1].replace(
+      /\(.*/,
+      '',
+    );
+  }
+
   for (let i = 1; i < mfparts.length; i++) {
     nTerm += mfparts[i - 1];
     cTerm = mfparts[mfparts.length - i] + cTerm;

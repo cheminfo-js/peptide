@@ -18,7 +18,7 @@ let allowed = [
   'CysSerThrTyr$y4',
   'ArgCysSerThrTyr$y5',
   'LeuArgCysSerThrTyr$y6',
-  'LysLeuArgCysSerThrTyr$y7',
+  'LysLeuArgCysSerThrTyr$y7'
 ];
 
 describe('Check fragmentation', () => {
@@ -32,7 +32,7 @@ describe('Check fragmentation', () => {
       y: true,
       z: false,
       yb: false,
-      ya: false,
+      ya: false
     });
     expect(result).toHaveLength(4);
   });
@@ -47,7 +47,7 @@ describe('Check fragmentation', () => {
       y: true,
       z: false,
       yb: false,
-      ya: false,
+      ya: false
     });
     expect(result).toHaveLength(14);
     checkAllowed(result);
@@ -62,7 +62,7 @@ describe('Check fragmentation', () => {
       y: true,
       z: false,
       yb: false,
-      ya: false,
+      ya: false
     });
     expect(result).toHaveLength(2);
     expect(result).toStrictEqual(['HLys(+1)$b1', 'H2(+1)AlaOH$y1']);
@@ -77,7 +77,7 @@ describe('Check fragmentation', () => {
       y: true,
       z: false,
       yb: false,
-      ya: false,
+      ya: false
     });
     expect(result).toHaveLength(2);
     expect(result).toStrictEqual(['HLys(COH)(+1)$b1', 'H2(+1)AlaOH$y1']);
@@ -94,7 +94,7 @@ describe('Check fragmentation', () => {
       y: true,
       z: false,
       yb: false,
-      ya: false,
+      ya: false
     });
     expect(result).toHaveLength(14);
     checkAllowed(result);
@@ -111,7 +111,7 @@ describe('Check fragmentation', () => {
       y: true,
       z: false,
       yb: false,
-      ya: false,
+      ya: false
     });
     expect(result).toHaveLength(14);
     checkAllowed(result);
@@ -129,7 +129,7 @@ describe('Check fragmentation', () => {
       y: true,
       z: false,
       yb: false,
-      ya: false,
+      ya: false
     });
     expect(result).toHaveLength(14);
     checkAllowed(result);
@@ -147,7 +147,7 @@ describe('Check fragmentation', () => {
       y: true,
       z: false,
       yb: false,
-      ya: false,
+      ya: false
     });
     expect(result).toHaveLength(14);
     checkAllowed(result);
@@ -164,10 +164,35 @@ describe('Check fragmentation', () => {
       y: true,
       z: false,
       yb: false,
-      ya: false,
+      ya: false
     });
     expect(result).toHaveLength(14);
     checkAllowed(result);
+  });
+
+  it.only('ALP versus (H)ALP(OH) versus HAlaLeuProOH versus (H)AlaLeuPro(OH)', () => {
+    let sequence1 = PEP.convertAASequence('ALP');
+    let sequence2 = PEP.convertAASequence('(H)ALP(OH)');
+    let sequence3 = PEP.convertAASequence('HAlaLeuProOH');
+    let sequence4 = PEP.convertAASequence('(H)AlaLeuPro(OH)');
+    let result1 = PEP.generatePeptideFragments(sequence1);
+    let result2 = PEP.generatePeptideFragments(sequence2);
+    let result3 = PEP.generatePeptideFragments(sequence3);
+    let result4 = PEP.generatePeptideFragments(sequence4);
+    expect(result1).toStrictEqual([
+      'HAla(+1)$b1',
+      'H2(+1)ProOH$y1',
+      'HAlaLeu(+1)$b2',
+      'H2(+1)LeuProOH$y2'
+    ]);
+    expect(result2).toStrictEqual([
+      '(H)Ala(+1)$b1',
+      'H2(+1)Pro(OH)$y1',
+      '(H)AlaLeu(+1)$b2',
+      'H2(+1)LeuPro(OH)$y2'
+    ]);
+    expect(result1).toStrictEqual(result3);
+    expect(result2).toStrictEqual(result4);
   });
 });
 
