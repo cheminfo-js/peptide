@@ -1,6 +1,6 @@
 /**
  * peptide - Peptide
- * @version v1.10.0
+ * @version v1.10.1
  * @link https://github.com/cheminfo-js/peptide
  * @license MIT
  */
@@ -807,6 +807,16 @@ module.exports = function (mf, options) {
   let mfparts = mf.replace(/([a-z)0-9])([A-Z][a-z](?=[a-z]))/g, '$1 $2').split(/ /);
   let nTerm = '';
   let cTerm = '';
+
+  if (mfparts[0].startsWith('(')) {
+    nTerm += mfparts[0];
+    mfparts = mfparts.splice(1);
+  }
+
+  if (mfparts[mfparts.length - 1].includes('(')) {
+    cTerm += mfparts[mfparts.length - 1].replace(/^[^()]*/, '');
+    mfparts[mfparts.length - 1] = mfparts[mfparts.length - 1].replace(/\(.*/, '');
+  }
 
   for (let i = 1; i < mfparts.length; i++) {
     nTerm += mfparts[i - 1];
