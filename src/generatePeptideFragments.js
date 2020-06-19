@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function(mf, options) {
+module.exports = function (mf, options) {
   if (options === undefined) {
     options = {
       a: false,

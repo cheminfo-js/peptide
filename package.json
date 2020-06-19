@@ -30,14 +30,14 @@
   },
   "devDependencies": {
     "cheminfo-tools": "^1.23.3",
-    "eslint": "^6.7.1",
-    "eslint-config-cheminfo": "^2.0.4",
-    "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-jest": "^23.0.4",
-    "eslint-plugin-no-only-tests": "^2.3.1",
-    "eslint-plugin-prettier": "^3.1.1",
-    "jest": "^24.9.0",
-    "prettier": "^1.19.1"
+    "eslint": "^7.3.0",
+    "eslint-config-cheminfo": "^4.0.0",
+    "eslint-plugin-import": "^2.21.2",
+    "eslint-plugin-jest": "^23.13.2",
+    "eslint-plugin-no-only-tests": "^2.4.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "jest": "^26.0.1",
+    "prettier": "^2.0.5"
   },
   "dependencies": {}
 }
