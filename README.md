@@ -5,7 +5,7 @@
 [![David deps][david-image]][david-url]
 [![npm download][download-image]][download-url]
 
-Peptide
+## This project has been migrated to the lerna project https://github.com/cheminfo/mass-tools
 
 ## Amino acids
 
